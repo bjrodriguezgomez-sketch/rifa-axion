@@ -467,7 +467,7 @@ footer {
         <h3>Premio: 1 Palet Axion Líquido 400ml</h3>
         <p>56 cajas · 12+3 pzas · Listo para vender</p>
       </div>
-      <div class="p-valor">$15,904<span>en producto</span></div>
+
     </div>
 
     <!-- Formulario -->
@@ -489,13 +489,8 @@ footer {
 
     <div class="field">
       <label>Vendedor</label>
-      <select id="f-vendedor">
-        <option value="">— Selecciona vendedor —</option>
-        <option value="V01 - Ruta Norte">V01 — Ruta Norte</option>
-        <option value="V02 - Ruta Sur">V02 — Ruta Sur</option>
-        <option value="V03 - Ruta Centro">V03 — Ruta Centro</option>
-        <option value="M01 - Mostrador">M01 — Mostrador</option>
-      </select>
+      <input type="text" id="f-vendedor" placeholder="Ej: Juan Pérez / Mostrador" autocomplete="off">
+
     </div>
 
     <!-- Preview boletos -->
@@ -582,7 +577,7 @@ async function registrarVenta() {
   if (!cliente)  return toast('⚠️ Ingresa el nombre del cliente');
   if (!folio)    return toast('⚠️ Ingresa el folio de factura');
   if (bultos<1)  return toast('⚠️ Ingresa al menos 1 bulto');
-  if (!vendedor) return toast('⚠️ Selecciona el vendedor');
+  if (!vendedor) return toast('⚠️ Ingresa el nombre del vendedor');
 
   setLoading(true);
 
