@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>¡La Axion de Ganar! — Rifa de Palet</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+:root {
+  --rojo: #D42B2B;
+  --rojo-oscuro: #A01E1E;
+  --amarillo: #FFD700;
+  --amarillo-claro: #FFF176;
+  --verde: #1B6E2E;
+  --verde-medio: #1B8A3A;
+  --verde-claro: #25B54E;
+  --blanco: #FFFFFF;
+  --negro: #0a0a0a;
+  --azul-banner: #4EC3F0;
+}
+
+html, body {
+  width:100%; min-height:100vh;
+  font-family:'Nunito',sans-serif;
+  background: var(--negro);
+  overflow-x:hidden;
+}
+
+/* ══ CANVAS CONFETTI ══ */
+#confetti-canvas {
+  position:fixed; inset:0; z-index:5;
+  pointer-events:none;
+}
+
+/* ══════════════════════════════════
+   PANTALLA 1 — PORTADA / BANNER
+══════════════════════════════════ */
+#pantalla-portada {
+  position:relative;
+  width:100%; min-height:100vh;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:flex-end;
+  overflow:hidden;
+}
+
+.banner-img {
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  object-position:center top;
+}
+
+/* Gradiente oscuro solo en la parte inferior para el botón */
+.banner-overlay {
+  position:absolute; inset:0;
+  background: linear-gradient(
+    to bottom,
+    transparent 55%,
+    rgba(0,0,0,0.55) 75%,
+    rgba(0,0,0,0.88) 100%
+  );
+}
+
+.portada-bottom {
+  position:relative; z-index:2;
+  width:100%; padding: 0 1.5rem 2.8rem;
+  display:flex; flex-direction:column; align-items:center; gap:1rem;
+}
+
+/* Texto mecánica pequeño arriba del botón */
+.portada-mecanica {
+  text-align:center;
+  font-size:.82rem; font-weight:700;
+  color:rgba(255,255,255,0.75);
+  letter-spacing:.5px;
+  line-height:1.5;
+}
+.portada-mecanica strong { color:var(--amarillo); }
+
+/* ── BOTÓN PARTICIPAR ── */
+.btn-participar {
+  width:100%; max-width:380px;
+  background: linear-gradient(135deg, #1db954 0%, #128038 100%);
+  border:3px solid var(--amarillo);
+  border-radius:50px;
+  padding:1.1rem 2rem;
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.5rem; color:var(--blanco);
+  letter-spacing:2px;
+  cursor:pointer;
+  box-shadow: 0 6px 30px rgba(29,185,84,0.55), 0 0 0 4px rgba(255,215,0,0.2);
+  animation: btnPulse 1.8s ease-in-out infinite;
+  transition: transform .15s;
+  display:flex; align-items:center; justify-content:center; gap:.5rem;
+}
+@keyframes btnPulse {
+  0%,100% { box-shadow: 0 6px 30px rgba(29,185,84,0.55), 0 0 0 4px rgba(255,215,0,0.2); }
+  50%      { box-shadow: 0 8px 44px rgba(255,215,0,0.5),  0 0 0 8px rgba(255,215,0,0.15); }
+}
+.btn-participar:active { transform:scale(.96); }
+
+.btn-participar .btn-arrow {
+  font-size:1.3rem;
+  animation: arrowBounce 1.2s ease-in-out infinite;
+}
+@keyframes arrowBounce {
+  0%,100% { transform:translateX(0); }
+  50%      { transform:translateX(5px); }
+}
+
+/* ══════════════════════════════════
+   PANTALLA 2 — FORMULARIO
+══════════════════════════════════ */
+#pantalla-form {
+  display:none;
+  min-height:100vh;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Fondo degradado festivo con la imagen de fondo tenue */
+.form-bg {
+  position:fixed; inset:0; z-index:0;
+  background: linear-gradient(160deg, #0d0000 0%, #1a0505 35%, #021208 100%);
+}
+.form-bg-img {
+  position:absolute; inset:0;
+  background-image: url('bg.png');
+  background-size:cover; background-position:center top;
+  opacity:.07;
+}
+
+.form-wrap {
+  position:relative; z-index:2;
+  width:100%; max-width:520px;
+  margin:0 auto;
+  padding:0 1rem 3rem;
+}
+
+/* ── Mini header con imagen reducida ── */
+.form-header {
+  display:flex; align-items:center;
+  gap:1rem;
+  padding:1.2rem 0 1rem;
+  border-bottom:1px solid rgba(255,215,0,0.15);
+  margin-bottom:1.4rem;
+}
+.form-header-img {
+  width:64px; height:64px;
+  border-radius:12px;
+  object-fit:cover; object-position:center top;
+  border:2px solid var(--amarillo);
+  flex-shrink:0;
+}
+.form-header-text h2 {
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.2rem; color:var(--amarillo);
+  line-height:1.1;
+}
+.form-header-text p {
+  font-size:.78rem; color:rgba(255,255,255,0.55);
+  margin-top:.25rem;
+}
+.btn-volver {
+  margin-left:auto;
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:8px;
+  padding:.4rem .7rem;
+  color:rgba(255,255,255,0.5);
+  font-size:.78rem; cursor:pointer;
+  font-family:'Nunito',sans-serif;
+  flex-shrink:0;
+  transition:all .2s;
+}
+.btn-volver:hover { border-color:var(--amarillo); color:var(--amarillo); }
+
+/* ── Premio pill ── */
+.premio-pill {
+  background:linear-gradient(135deg,var(--rojo),var(--rojo-oscuro));
+  border:2px solid var(--amarillo);
+  border-radius:14px;
+  padding:.9rem 1.2rem;
+  display:flex; align-items:center; gap:.9rem;
+  margin-bottom:1.4rem;
+  animation:pillGlow 2.5s ease-in-out infinite;
+}
+@keyframes pillGlow {
+  0%,100%{ box-shadow:0 4px 20px rgba(212,43,43,.45); }
+  50%    { box-shadow:0 4px 30px rgba(255,215,0,.35); }
+}
+.premio-pill .p-emoji { font-size:2.2rem; flex-shrink:0; }
+.premio-pill .p-info h3 {
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1rem; color:var(--amarillo);
+}
+.premio-pill .p-info p {
+  font-size:.78rem; color:rgba(255,255,255,.8); margin-top:.15rem;
+}
+.premio-pill .p-valor {
+  margin-left:auto; text-align:right; flex-shrink:0;
+  font-weight:900; font-size:1.1rem; color:var(--blanco);
+  line-height:1.1;
+}
+.premio-pill .p-valor span { font-size:.7rem; color:var(--amarillo-claro); display:block; }
+
+/* ── Form label / input ── */
+.field { margin-bottom:.95rem; }
+
+label {
+  display:block;
+  font-size:.72rem; font-weight:900;
+  color:rgba(255,255,255,.45);
+  text-transform:uppercase; letter-spacing:1.2px;
+  margin-bottom:.35rem;
+}
+
+input, select {
+  width:100%;
+  background:rgba(255,255,255,.07);
+  border:1.5px solid rgba(255,255,255,.15);
+  border-radius:11px;
+  padding:.78rem 1rem;
+  font-family:'Nunito',sans-serif;
+  font-size:1rem; font-weight:700;
+  color:var(--blanco);
+  outline:none;
+  transition:border-color .2s, background .2s;
+  -webkit-appearance:none;
+}
+input::placeholder { color:rgba(255,255,255,.25); }
+input:focus, select:focus {
+  border-color:var(--amarillo);
+  background:rgba(255,215,0,.06);
+}
+select option { background:#1a0505; color:white; }
+
+.row-2 { display:grid; grid-template-columns:1fr 1fr; gap:.85rem; }
+
+/* ── Preview boletos ── */
+.preview-box {
+  border-radius:13px;
+  padding:.85rem 1rem;
+  margin:.3rem 0 1rem;
+  min-height:52px;
+  display:flex; align-items:center; justify-content:center;
+  text-align:center;
+  transition:all .3s;
+  border:1.5px dashed rgba(255,215,0,.3);
+  background:rgba(0,0,0,.2);
+}
+.preview-box.vacio p { color:rgba(255,255,255,.28); font-size:.85rem; }
+.preview-box.activo {
+  border-color:var(--amarillo);
+  background:rgba(255,215,0,.06);
+}
+.preview-box .pb-label {
+  font-size:.7rem; font-weight:900; color:var(--amarillo);
+  text-transform:uppercase; letter-spacing:1px; margin-bottom:.2rem;
+}
+.preview-box .pb-nums {
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.7rem; color:var(--blanco); letter-spacing:2px;
+}
+.preview-box .pb-sub {
+  font-size:.75rem; color:rgba(255,255,255,.4); margin-top:.1rem;
+}
+
+/* ── Botón registrar ── */
+.btn-registrar {
+  width:100%;
+  background:linear-gradient(135deg, var(--verde-medio) 0%, var(--verde-claro) 100%);
+  border:none; border-radius:14px;
+  padding:1.05rem;
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.25rem; color:var(--blanco); letter-spacing:1px;
+  cursor:pointer;
+  box-shadow:0 6px 24px rgba(27,138,58,.5);
+  transition:transform .15s, box-shadow .15s;
+  display:flex; align-items:center; justify-content:center; gap:.5rem;
+}
+.btn-registrar:hover:not(:disabled) {
+  transform:translateY(-2px);
+  box-shadow:0 10px 32px rgba(27,138,58,.6);
+}
+.btn-registrar:active:not(:disabled){ transform:scale(.97); }
+.btn-registrar:disabled{ opacity:.45; cursor:not-allowed; }
+
+.spinner {
+  width:20px; height:20px;
+  border:3px solid rgba(255,255,255,.3);
+  border-top-color:white;
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+  display:none;
+}
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+footer {
+  margin-top:1.8rem;
+  text-align:center;
+  font-size:.72rem;
+  color:rgba(255,255,255,.2);
+  line-height:1.8;
+}
+
+/* ══════════════════════════════════
+   MODAL ÉXITO
+══════════════════════════════════ */
+.modal-overlay {
+  position:fixed; inset:0; z-index:50;
+  background:rgba(0,0,0,.88);
+  display:none; align-items:center; justify-content:center;
+  padding:1rem;
+}
+.modal-overlay.show{ display:flex; }
+
+.modal {
+  background:linear-gradient(160deg,#1a0800,#021208);
+  border:2.5px solid var(--amarillo);
+  border-radius:24px;
+  padding:2rem 1.6rem;
+  max-width:380px; width:100%;
+  text-align:center;
+  animation:modalIn .4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes modalIn{
+  from{ transform:scale(.7) translateY(30px); opacity:0; }
+  to  { transform:scale(1)  translateY(0);    opacity:1; }
+}
+
+.modal-stars { font-size:2rem; margin-bottom:.3rem; letter-spacing:4px; }
+.modal h2 {
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.5rem; color:var(--amarillo);
+  margin-bottom:.3rem;
+}
+.modal .modal-cliente {
+  font-size:.9rem; color:rgba(255,255,255,.65);
+  margin-bottom:1.2rem;
+}
+
+.boleto-card {
+  background:linear-gradient(135deg,var(--rojo),var(--rojo-oscuro));
+  border:2.5px solid var(--amarillo);
+  border-radius:16px;
+  padding:1.2rem 1rem;
+  margin-bottom:1.1rem;
+  position:relative; overflow:hidden;
+}
+.boleto-card::before {
+  content:'BOLETO';
+  position:absolute; top:8px; right:10px;
+  font-size:.6rem; font-weight:900; letter-spacing:3px;
+  color:rgba(255,255,255,.2);
+}
+.boleto-card .bc-label {
+  font-size:.7rem; font-weight:900; color:rgba(255,255,255,.6);
+  text-transform:uppercase; letter-spacing:2px; margin-bottom:.3rem;
+}
+.boleto-card .bc-nums {
+  font-family:'Black Han Sans',sans-serif;
+  font-size:2.6rem; color:var(--amarillo);
+  text-shadow:0 2px 0 rgba(0,0,0,.4);
+  line-height:1;
+}
+.boleto-card .bc-count {
+  font-size:.8rem; color:rgba(255,255,255,.55);
+  margin-top:.35rem;
+}
+
+.modal .modal-detalle {
+  font-size:.78rem; color:rgba(255,255,255,.4);
+  margin-bottom:1.2rem; line-height:1.7;
+}
+
+.btn-cerrar {
+  background:var(--amarillo);
+  color:var(--negro);
+  border:none; border-radius:10px;
+  padding:.85rem 2.5rem;
+  font-family:'Nunito',sans-serif;
+  font-size:1rem; font-weight:900;
+  cursor:pointer;
+  transition:transform .15s;
+}
+.btn-cerrar:hover{ transform:scale(1.04); }
+
+/* ── Toast ── */
+.toast {
+  position:fixed; bottom:2rem; left:50%;
+  transform:translateX(-50%);
+  background:#c0392b; color:white;
+  padding:.75rem 1.6rem;
+  border-radius:50px;
+  font-weight:800; font-size:.88rem;
+  z-index:200;
+  opacity:0; pointer-events:none;
+  transition:opacity .3s;
+  white-space:nowrap;
+  max-width:90vw;
+}
+.toast.show{ opacity:1; }
+
+/* ── Tickets flotantes ambientales ── */
+.ft {
+  position:fixed;
+  pointer-events:none; z-index:3;
+  animation:floatUp linear forwards;
+  opacity:0; font-size:1.5rem;
+}
+@keyframes floatUp{
+  0%  { opacity:.5; transform:translateY(0)   rotate(0deg); }
+  100%{ opacity:0;  transform:translateY(-110px) rotate(35deg); }
+}
+
+@media(max-width:400px){
+  .row-2{ grid-template-columns:1fr; }
+  .btn-participar{ font-size:1.3rem; }
+  .boleto-card .bc-nums{ font-size:2rem; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<!-- ══════════════════════ PANTALLA 1 — PORTADA ══════════════════════ -->
+<div id="pantalla-portada">
+  <img class="banner-img" src="bg.png" alt="¡La Axion de Ganar!">
+  <div class="banner-overlay"></div>
+
+  <div class="portada-bottom">
+    <p class="portada-mecanica">
+      <strong>1 bulto Axion Polvo 720g = 1 boleto</strong><br>
+      Ganador con últimas cifras del Premio Mayor · Lotería Nacional
+    </p>
+    <button class="btn-participar" onclick="irAFormulario()">
+      ¡PARTICIPAR AHORA!
+      <span class="btn-arrow">→</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════ PANTALLA 2 — FORMULARIO ══════════════════════ -->
+<div id="pantalla-form">
+  <div class="form-bg"><div class="form-bg-img"></div></div>
+
+  <div class="form-wrap">
+
+    <!-- Mini header -->
+    <div class="form-header">
+      <img class="form-header-img" src="bg.png" alt="Axion">
+      <div class="form-header-text">
+        <h2>¡La Axion<br>de Ganar!</h2>
+        <p>Registra tu venta y obtén tus boletos</p>
+      </div>
+      <button class="btn-volver" onclick="volverPortada()">← Portada</button>
+    </div>
+
+    <!-- Premio -->
+    <div class="premio-pill">
+      <div class="p-emoji">🏆</div>
+      <div class="p-info">
+        <h3>Premio: 1 Palet Axion Líquido 400ml</h3>
+        <p>56 cajas · 12+3 pzas · Listo para vender</p>
+      </div>
+      <div class="p-valor">$15,904<span>en producto</span></div>
+    </div>
+
+    <!-- Formulario -->
+    <div class="field">
+      <label>Nombre del Cliente / Negocio</label>
+      <input type="text" id="f-cliente" placeholder="Ej: Abarrotes El Tigre" autocomplete="off">
+    </div>
+
+    <div class="row-2">
+      <div class="field">
+        <label>Folio Factura / Nota</label>
+        <input type="text" id="f-folio" placeholder="FAC-001" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>Bultos Comprados</label>
+        <input type="number" id="f-bultos" placeholder="0" min="1" max="999" inputmode="numeric">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Vendedor</label>
+      <select id="f-vendedor">
+        <option value="">— Selecciona vendedor —</option>
+        <option value="V01 - Ruta Norte">V01 — Ruta Norte</option>
+        <option value="V02 - Ruta Sur">V02 — Ruta Sur</option>
+        <option value="V03 - Ruta Centro">V03 — Ruta Centro</option>
+        <option value="M01 - Mostrador">M01 — Mostrador</option>
+      </select>
+    </div>
+
+    <!-- Preview boletos -->
+    <div class="preview-box vacio" id="preview-box">
+      <p>Ingresa los bultos para ver cuántos boletos recibes</p>
+    </div>
+
+    <button class="btn-registrar" id="btn-reg" onclick="registrarVenta()">
+      <span id="btn-txt">🎟️ Registrar y Obtener Boletos</span>
+      <span class="spinner" id="spinner"></span>
+    </button>
+
+    <footer>
+      Campaña válida por 1 mes · Solo mayoristas autorizados<br>
+      Vigencia según bases con tu vendedor
+    </footer>
+  </div>
+</div>
+
+<!-- MODAL ÉXITO -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-stars">⭐🎉⭐</div>
+    <h2>¡Boletos Asignados!</h2>
+    <p class="modal-cliente" id="m-cliente"></p>
+    <div class="boleto-card">
+      <div class="bc-label">Tu rango de boletos</div>
+      <div class="bc-nums" id="m-nums"></div>
+      <div class="bc-count" id="m-count"></div>
+    </div>
+    <p class="modal-detalle" id="m-detalle"></p>
+    <button class="btn-cerrar" onclick="cerrarModal()">¡Listo! 🎊</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════
+//  CONFIGURACIÓN — reemplaza con tu URL
+// ══════════════════════════════════════════
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDB1qL4HO0F-sBJ2x6KO1itsjFLQfIyPyiYbZdqD5WfuJM7FXaguYUdeZtcKQCb0m9/exec';
+
+// ── Navegación entre pantallas ──
+function irAFormulario() {
+  document.getElementById('pantalla-portada').style.display = 'none';
+  document.getElementById('pantalla-form').style.display = 'block';
+  window.scrollTo(0,0);
+}
+function volverPortada() {
+  document.getElementById('pantalla-form').style.display = 'none';
+  document.getElementById('pantalla-portada').style.display = 'flex';
+  window.scrollTo(0,0);
+}
+
+// ── Preview en tiempo real ──
+document.getElementById('f-bultos').addEventListener('input', actualizarPreview);
+
+function actualizarPreview() {
+  const n = parseInt(document.getElementById('f-bultos').value) || 0;
+  const box = document.getElementById('preview-box');
+  if (n < 1) {
+    box.className = 'preview-box vacio';
+    box.innerHTML = '<p>Ingresa los bultos para ver cuántos boletos recibes</p>';
+    return;
+  }
+  box.className = 'preview-box activo';
+  box.innerHTML = `
+    <div>
+      <div class="pb-label">Recibirás ${n} boleto${n>1?'s':''}</div>
+      <div class="pb-nums">🎟️ × ${n}</div>
+      <div class="pb-sub">Los números exactos se asignan al guardar</div>
+    </div>`;
+}
+
+// ── Registro ──
+async function registrarVenta() {
+  const cliente  = document.getElementById('f-cliente').value.trim();
+  const folio    = document.getElementById('f-folio').value.trim().toUpperCase();
+  const bultos   = parseInt(document.getElementById('f-bultos').value) || 0;
+  const vendedor = document.getElementById('f-vendedor').value;
+
+  if (!cliente)  return toast('⚠️ Ingresa el nombre del cliente');
+  if (!folio)    return toast('⚠️ Ingresa el folio de factura');
+  if (bultos<1)  return toast('⚠️ Ingresa al menos 1 bulto');
+  if (!vendedor) return toast('⚠️ Selecciona el vendedor');
+
+  setLoading(true);
+
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method:'POST',
+      body: JSON.stringify({ cliente, folio, bultos, vendedor })
+    });
+    if (!res.ok) throw new Error('Error de red');
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+
+    mostrarModal(cliente, data.boletoInicial, data.boletoFinal, bultos, folio, vendedor);
+    limpiarForm();
+    lanzarConfetti();
+
+  } catch(err) {
+    toast('❌ ' + (err.message === 'Failed to fetch'
+      ? 'Sin conexión. Verifica internet.'
+      : err.message || 'Error al guardar. Intenta de nuevo.'));
+  } finally {
+    setLoading(false);
+  }
+}
+
+function setLoading(on) {
+  const btn = document.getElementById('btn-reg');
+  const txt = document.getElementById('btn-txt');
+  const sp  = document.getElementById('spinner');
+  btn.disabled = on;
+  txt.textContent = on ? 'Guardando...' : '🎟️ Registrar y Obtener Boletos';
+  sp.style.display = on ? 'block' : 'none';
+}
+
+function limpiarForm() {
+  ['f-cliente','f-folio','f-bultos'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('f-vendedor').value='';
+  actualizarPreview();
+}
+
+// ── Modal ──
+function mostrarModal(cliente, ini, fin, n, folio, vendedor) {
+  document.getElementById('m-cliente').textContent = cliente;
+  document.getElementById('m-nums').textContent = n===1 ? `# ${ini}` : `# ${ini}  →  # ${fin}`;
+  document.getElementById('m-count').textContent = `${n} boleto${n>1?'s':''} en total`;
+  document.getElementById('m-detalle').innerHTML =
+    `Folio: <strong style="color:rgba(255,255,255,.7)">${folio}</strong> · ${vendedor}<br>
+     📸 Toma una foto de esta pantalla como comprobante`;
+  document.getElementById('modal').classList.add('show');
+}
+function cerrarModal() {
+  document.getElementById('modal').classList.remove('show');
+}
+
+// ── Toast ──
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3500);
+}
+
+// ── Confetti ──
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+let parts=[], running=false;
+
+function resizeCanvas(){
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+}
+window.addEventListener('resize',resizeCanvas);
+resizeCanvas();
+
+function lanzarConfetti(){
+  const cols=['#FFD700','#FF3B3B','#25B54E','#FFFFFF','#FF8C00','#4EC3F0','#FFF176'];
+  for(let i=0;i<160;i++){
+    parts.push({
+      x:Math.random()*canvas.width, y:-10,
+      r:Math.random()*7+4,
+      c:cols[Math.floor(Math.random()*cols.length)],
+      vx:(Math.random()-.5)*7, vy:Math.random()*4+2,
+      a:Math.random()*360, av:(Math.random()-.5)*9,
+      shape:Math.random()>.5?'rect':'circle', life:1
+    });
+  }
+  if(!running) animateConfetti();
+}
+
+function animateConfetti(){
+  running=true;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  parts=parts.filter(p=>p.life>0);
+  parts.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy;
+    p.a+=p.av; p.life-=.013;
+    ctx.save();
+    ctx.globalAlpha=p.life;
+    ctx.fillStyle=p.c;
+    ctx.translate(p.x,p.y);
+    ctx.rotate(p.a*Math.PI/180);
+    if(p.shape==='rect') ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.7);
+    else { ctx.beginPath(); ctx.arc(0,0,p.r/2,0,Math.PI*2); ctx.fill(); }
+    ctx.restore();
+  });
+  if(parts.length>0) requestAnimationFrame(animateConfetti);
+  else running=false;
+}
+
+// ── Tickets flotantes ambientales ──
+const emojis=['🎟️','🎊','⭐','🏆','✨','🎯'];
+function floatingTick(){
+  const el=document.createElement('div');
+  el.className='ft';
+  el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  el.style.left=Math.random()*100+'vw';
+  el.style.bottom='0';
+  el.style.animationDuration=(4+Math.random()*5)+'s';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),9000);
+}
+setInterval(floatingTick,2500);
+</script>
+</body>
+</html>
