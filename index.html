@@ -3,91 +3,96 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>¡La Axion de Ganar! — Rifa de Palet</title>
+<title>¡La Axion de Ganar!</title>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 :root {
   --rojo:#D42B2B; --rojo-oscuro:#A01E1E; --amarillo:#FFD700;
   --amarillo-claro:#FFF176; --verde:#1B6E2E; --verde-medio:#1B8A3A;
-  --verde-claro:#25B54E; --blanco:#FFFFFF; --negro:#0a0a0a; --azul-banner:#3BB8E8;
+  --verde-claro:#25B54E; --blanco:#FFFFFF; --negro:#0a0a0a;
+  --azul-banner:#3BB8E8; --azul-dark:#1a7aaa;
 }
 html,body { width:100%; min-height:100vh; font-family:'Nunito',sans-serif; background:var(--azul-banner); overflow-x:hidden; }
 #confetti-canvas { position:fixed; inset:0; z-index:5; pointer-events:none; }
 
 /* ══ PANTALLA 1 — PORTADA ══ */
 #pantalla-portada {
-  position:relative; width:100%; min-height:100vh;
+  position:relative; width:100%;
   display:flex; flex-direction:column; align-items:center;
-  background: var(--azul-banner);
-  overflow:hidden;
+  background: linear-gradient(to bottom, var(--azul-banner) 0%, #2090c0 70%, #1a7aaa 100%);
 }
+
+/* Imagen banner — ocupa su espacio natural sin estirar */
 .banner-img {
   width:100%; display:block;
-  object-fit:contain; object-position:center top;
-}
-.portada-bottom {
-  width:100%; background: linear-gradient(to bottom, var(--azul-banner) 0%, #2a8ab0 100%);
-  padding: 0.8rem 1.2rem 2rem;
-  display:flex; flex-direction:column; align-items:center; gap:0.8rem;
+  max-width:480px; margin:0 auto;
+  object-fit:contain;
 }
 
-/* ── Cuenta regresiva ── */
-.cuenta-wrap {
-  width:100%; max-width:420px;
-  background:rgba(0,0,0,0.35);
-  border:1.5px solid rgba(255,215,0,0.5);
-  border-radius:16px;
-  padding:0.8rem 0.5rem;
-  text-align:center;
+/* Zona inferior con botones y contador */
+.portada-bottom {
+  width:100%; max-width:480px;
+  padding: 1rem 1.2rem 2.5rem;
+  display:flex; flex-direction:column; align-items:center; gap:1rem;
+  position:relative;
 }
-.cuenta-titulo {
-  font-size:.72rem; font-weight:900; color:var(--amarillo);
-  text-transform:uppercase; letter-spacing:2px; margin-bottom:.5rem;
+
+/* ── Contador pequeño tipo pastilla ── */
+.cuenta-pastilla {
+  width:100%;
+  background:rgba(0,0,0,0.45);
+  border:1px solid rgba(255,215,0,0.4);
+  border-radius:14px;
+  padding:.6rem .8rem;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:.5rem;
 }
-.cuenta-bloques {
-  display:flex; justify-content:center; gap:.5rem;
+.cuenta-pastilla .cp-titulo {
+  font-size:.68rem; font-weight:900; color:var(--amarillo);
+  text-transform:uppercase; letter-spacing:1px;
+  white-space:nowrap; flex-shrink:0;
 }
-.cuenta-bloque {
+.cuenta-nums {
+  display:flex; align-items:center; gap:.2rem; flex-shrink:0;
+}
+.cn-bloque {
   display:flex; flex-direction:column; align-items:center;
-  background:rgba(0,0,0,0.4); border-radius:10px;
-  padding:.4rem .6rem; min-width:58px;
+  background:rgba(0,0,0,0.5); border-radius:6px;
+  padding:.25rem .35rem; min-width:36px;
 }
-.cuenta-num {
+.cn-num {
   font-family:'Black Han Sans',sans-serif;
-  font-size:1.8rem; color:var(--blanco); line-height:1;
+  font-size:1rem; color:var(--blanco); line-height:1;
 }
-.cuenta-label {
-  font-size:.6rem; color:rgba(255,255,255,.55);
-  text-transform:uppercase; letter-spacing:1px; margin-top:.15rem;
+.cn-lbl {
+  font-size:.45rem; color:rgba(255,255,255,.45);
+  text-transform:uppercase; letter-spacing:.5px; margin-top:.1rem;
 }
-.cuenta-sep {
+.cn-sep {
   font-family:'Black Han Sans',sans-serif;
-  font-size:1.6rem; color:var(--amarillo);
-  align-self:center; margin-top:-.2rem;
+  font-size:.9rem; color:var(--amarillo); margin-bottom:.3rem;
   animation:parpadeo 1s step-end infinite;
 }
-@keyframes parpadeo { 0%,100%{opacity:1} 50%{opacity:0} }
-
-.sorteo-fecha {
-  font-size:.75rem; color:rgba(255,255,255,.5);
-  margin-top:.5rem;
+@keyframes parpadeo{0%,100%{opacity:1}50%{opacity:0}}
+.cuenta-sorteo-fecha {
+  font-size:.6rem; color:rgba(255,255,255,.45);
+  text-align:right; flex-shrink:0; line-height:1.3;
 }
 
 /* ── Botón participar ── */
 .btn-participar {
-  width:100%; max-width:420px;
-  background:linear-gradient(135deg,#1db954 0%,#128038 100%);
+  width:100%;
+  background:linear-gradient(135deg,#1db954,#128038);
   border:3px solid var(--amarillo); border-radius:50px;
   padding:1rem 2rem;
   font-family:'Black Han Sans',sans-serif;
   font-size:1.4rem; color:var(--blanco); letter-spacing:2px;
   cursor:pointer;
-  box-shadow:0 6px 30px rgba(29,185,84,.55), 0 0 0 4px rgba(255,215,0,.2);
   animation:btnPulse 1.8s ease-in-out infinite;
   display:flex; align-items:center; justify-content:center; gap:.5rem;
 }
-@keyframes btnPulse {
+@keyframes btnPulse{
   0%,100%{box-shadow:0 6px 30px rgba(29,185,84,.55),0 0 0 4px rgba(255,215,0,.2);}
   50%{box-shadow:0 8px 44px rgba(255,215,0,.5),0 0 0 8px rgba(255,215,0,.15);}
 }
@@ -95,52 +100,46 @@ html,body { width:100%; min-height:100vh; font-family:'Nunito',sans-serif; backg
 .btn-arrow{font-size:1.2rem;animation:arrowBounce 1.2s ease-in-out infinite;}
 @keyframes arrowBounce{0%,100%{transform:translateX(0);}50%{transform:translateX(5px);}}
 
-/* ── Botón sorteo (bloqueado hasta fin de cuenta) ── */
-.btn-sorteo-wrap { width:100%; max-width:420px; }
+/* ── Botón sorteo ── */
 .btn-sorteo {
   width:100%;
   background:linear-gradient(135deg,#7B2FBE,#4A0D8F);
-  border:3px solid var(--amarillo); border-radius:50px;
+  border:2.5px solid var(--amarillo); border-radius:50px;
   padding:.85rem 2rem;
   font-family:'Black Han Sans',sans-serif;
   font-size:1.1rem; color:var(--blanco); letter-spacing:1px;
-  cursor:not-allowed; opacity:.5;
+  cursor:pointer;
   display:flex; align-items:center; justify-content:center; gap:.5rem;
-  transition:all .3s;
+  box-shadow:0 6px 30px rgba(123,47,190,.5);
+  animation:btnPulse2 1.8s ease-in-out infinite;
 }
-.btn-sorteo.activo {
-  cursor:pointer; opacity:1;
-  animation:btnPulse 1.8s ease-in-out infinite;
-  box-shadow:0 6px 30px rgba(123,47,190,.6);
+@keyframes btnPulse2{
+  0%,100%{box-shadow:0 6px 30px rgba(123,47,190,.5);}
+  50%{box-shadow:0 8px 44px rgba(255,215,0,.4);}
 }
-.btn-sorteo.activo:active{transform:scale(.96);}
-.btn-sorteo-hint {
-  text-align:center; font-size:.72rem;
-  color:rgba(255,255,255,.4); margin-top:.4rem;
-}
+.btn-sorteo:active{transform:scale(.96);}
+.btn-sorteo-hint{text-align:center;font-size:.7rem;color:rgba(255,255,255,.4);margin-top:-.3rem;}
 
 /* ══ PANTALLA 2 — FORMULARIO ══ */
-#pantalla-form { display:none; min-height:100vh; position:relative; overflow:hidden; }
-.form-bg { position:fixed; inset:0; z-index:0; background:linear-gradient(160deg,#0d0000 0%,#1a0505 35%,#021208 100%); }
-.form-bg-img { position:absolute; inset:0; background-image:url('bg.png'); background-size:cover; background-position:center top; opacity:.07; }
-.form-wrap { position:relative; z-index:2; width:100%; max-width:520px; margin:0 auto; padding:0 1rem 3rem; }
-.form-header { display:flex; align-items:center; gap:1rem; padding:1.2rem 0 1rem; border-bottom:1px solid rgba(255,215,0,.15); margin-bottom:1.4rem; }
-.form-header-img { width:64px; height:64px; border-radius:12px; object-fit:cover; object-position:center top; border:2px solid var(--amarillo); flex-shrink:0; }
-.form-header-text h2 { font-family:'Black Han Sans',sans-serif; font-size:1.2rem; color:var(--amarillo); line-height:1.1; }
-.form-header-text p { font-size:.78rem; color:rgba(255,255,255,.55); margin-top:.25rem; }
-.btn-volver { margin-left:auto; background:transparent; border:1px solid rgba(255,255,255,.2); border-radius:8px; padding:.4rem .7rem; color:rgba(255,255,255,.5); font-size:.78rem; cursor:pointer; font-family:'Nunito',sans-serif; flex-shrink:0; transition:all .2s; }
-.btn-volver:hover{border-color:var(--amarillo);color:var(--amarillo);}
-.premio-pill { background:linear-gradient(135deg,var(--rojo),var(--rojo-oscuro)); border:2px solid var(--amarillo); border-radius:14px; padding:.9rem 1.2rem; display:flex; align-items:center; gap:.9rem; margin-bottom:1.4rem; animation:pillGlow 2.5s ease-in-out infinite; }
+#pantalla-form{display:none;min-height:100vh;position:relative;overflow:hidden;}
+.form-bg{position:fixed;inset:0;z-index:0;background:linear-gradient(160deg,#0d0000,#1a0505 35%,#021208);}
+.form-bg-img{position:absolute;inset:0;background-image:url('bg.png');background-size:cover;background-position:center top;opacity:.07;}
+.form-wrap{position:relative;z-index:2;width:100%;max-width:520px;margin:0 auto;padding:0 1rem 3rem;}
+.form-header{display:flex;align-items:center;gap:1rem;padding:1.2rem 0 1rem;border-bottom:1px solid rgba(255,215,0,.15);margin-bottom:1.4rem;}
+.form-header-img{width:64px;height:64px;border-radius:12px;object-fit:cover;object-position:center top;border:2px solid var(--amarillo);flex-shrink:0;}
+.form-header-text h2{font-family:'Black Han Sans',sans-serif;font-size:1.2rem;color:var(--amarillo);line-height:1.1;}
+.form-header-text p{font-size:.78rem;color:rgba(255,255,255,.55);margin-top:.25rem;}
+.btn-volver{margin-left:auto;background:transparent;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:.4rem .7rem;color:rgba(255,255,255,.5);font-size:.78rem;cursor:pointer;font-family:'Nunito',sans-serif;flex-shrink:0;}
+.premio-pill{background:linear-gradient(135deg,var(--rojo),var(--rojo-oscuro));border:2px solid var(--amarillo);border-radius:14px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.9rem;margin-bottom:1.4rem;animation:pillGlow 2.5s ease-in-out infinite;}
 @keyframes pillGlow{0%,100%{box-shadow:0 4px 20px rgba(212,43,43,.45);}50%{box-shadow:0 4px 30px rgba(255,215,0,.35);}}
 .premio-pill .p-emoji{font-size:2.2rem;flex-shrink:0;}
 .premio-pill .p-info h3{font-family:'Black Han Sans',sans-serif;font-size:1rem;color:var(--amarillo);}
 .premio-pill .p-info p{font-size:.78rem;color:rgba(255,255,255,.8);margin-top:.15rem;}
 .field{margin-bottom:.95rem;}
 label{display:block;font-size:.72rem;font-weight:900;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:.35rem;}
-input,select{width:100%;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:11px;padding:.78rem 1rem;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;color:var(--blanco);outline:none;transition:border-color .2s,background .2s;-webkit-appearance:none;}
+input{width:100%;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:11px;padding:.78rem 1rem;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;color:var(--blanco);outline:none;transition:border-color .2s,background .2s;-webkit-appearance:none;}
 input::placeholder{color:rgba(255,255,255,.25);}
-input:focus,select:focus{border-color:var(--amarillo);background:rgba(255,215,0,.06);}
-select option{background:#1a0505;color:white;}
+input:focus{border-color:var(--amarillo);background:rgba(255,215,0,.06);}
 .row-2{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;}
 .preview-box{border-radius:13px;padding:.85rem 1rem;margin:.3rem 0 1rem;min-height:52px;display:flex;align-items:center;justify-content:center;text-align:center;transition:all .3s;border:1.5px dashed rgba(255,215,0,.3);background:rgba(0,0,0,.2);}
 .preview-box.vacio p{color:rgba(255,255,255,.28);font-size:.85rem;}
@@ -148,130 +147,44 @@ select option{background:#1a0505;color:white;}
 .preview-box .pb-label{font-size:.7rem;font-weight:900;color:var(--amarillo);text-transform:uppercase;letter-spacing:1px;margin-bottom:.2rem;}
 .preview-box .pb-nums{font-family:'Black Han Sans',sans-serif;font-size:1.7rem;color:var(--blanco);letter-spacing:2px;}
 .preview-box .pb-sub{font-size:.75rem;color:rgba(255,255,255,.4);margin-top:.1rem;}
-.btn-registrar{width:100%;background:linear-gradient(135deg,var(--verde-medio) 0%,var(--verde-claro) 100%);border:none;border-radius:14px;padding:1.05rem;font-family:'Black Han Sans',sans-serif;font-size:1.25rem;color:var(--blanco);letter-spacing:1px;cursor:pointer;box-shadow:0 6px 24px rgba(27,138,58,.5);transition:transform .15s,box-shadow .15s;display:flex;align-items:center;justify-content:center;gap:.5rem;}
-.btn-registrar:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 32px rgba(27,138,58,.6);}
+.btn-registrar{width:100%;background:linear-gradient(135deg,var(--verde-medio),var(--verde-claro));border:none;border-radius:14px;padding:1.05rem;font-family:'Black Han Sans',sans-serif;font-size:1.25rem;color:var(--blanco);letter-spacing:1px;cursor:pointer;box-shadow:0 6px 24px rgba(27,138,58,.5);transition:transform .15s;display:flex;align-items:center;justify-content:center;gap:.5rem;}
 .btn-registrar:active:not(:disabled){transform:scale(.97);}
 .btn-registrar:disabled{opacity:.45;cursor:not-allowed;}
 .spinner{width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:none;}
 @keyframes spin{to{transform:rotate(360deg);}}
 footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,255,.2);line-height:1.8;}
 
-/* ══ PANTALLA 3 — SORTEO TRAGAPERRAS ══ */
-#pantalla-sorteo {
-  display:none; min-height:100vh;
-  background:linear-gradient(160deg,#1a0033,#0d001a,#001a0d);
-  position:relative; overflow:hidden;
-}
-.sorteo-wrap {
-  position:relative; z-index:2;
-  width:100%; max-width:480px; margin:0 auto;
-  padding:1.5rem 1rem 3rem;
-  display:flex; flex-direction:column; align-items:center;
-}
-.sorteo-header {
-  text-align:center; margin-bottom:1.5rem; width:100%;
-}
-.sorteo-header h2 {
-  font-family:'Black Han Sans',sans-serif;
-  font-size:1.8rem; color:var(--amarillo);
-  text-shadow:0 0 30px rgba(255,215,0,.5);
-}
-.sorteo-header p { font-size:.85rem; color:rgba(255,255,255,.5); margin-top:.3rem; }
-.btn-volver-sorteo { 
-  position:absolute; top:1.2rem; left:1rem;
-  background:transparent; border:1px solid rgba(255,255,255,.2);
-  border-radius:8px; padding:.4rem .7rem;
-  color:rgba(255,255,255,.5); font-size:.78rem;
-  cursor:pointer; font-family:'Nunito',sans-serif;
-}
-
-/* Máquina tragaperras */
-.maquina {
-  width:100%; max-width:360px;
-  background:linear-gradient(160deg,#2a0050,#1a0030);
-  border:3px solid var(--amarillo);
-  border-radius:24px;
-  padding:1.5rem 1.2rem;
-  box-shadow:0 0 60px rgba(123,47,190,.4), 0 0 0 1px rgba(255,215,0,.2);
-  display:flex; flex-direction:column; align-items:center; gap:1rem;
-}
-
-/* Pantalla de números */
-.slot-pantalla {
-  width:100%;
-  background:#000;
-  border:2px solid #444;
-  border-radius:14px;
-  padding:.8rem .5rem;
-  display:flex; justify-content:center; gap:.4rem;
-  box-shadow:inset 0 4px 20px rgba(0,0,0,.8);
-}
-.slot-drum {
-  width:62px; height:80px;
-  background:#111;
-  border:1.5px solid #333;
-  border-radius:10px;
-  display:flex; align-items:center; justify-content:center;
-  overflow:hidden; position:relative;
-}
-.slot-digit {
-  font-family:'Black Han Sans',sans-serif;
-  font-size:2.8rem; color:var(--amarillo);
-  text-shadow:0 0 20px rgba(255,215,0,.8);
-  transition:none;
-  position:relative; z-index:1;
-}
-.slot-drum.spinning .slot-digit {
-  animation:slotSpin .08s linear infinite;
-}
-@keyframes slotSpin {
-  0%{transform:translateY(-60px);opacity:0;}
-  50%{transform:translateY(0);opacity:1;}
-  100%{transform:translateY(60px);opacity:0;}
-}
-.slot-drum::before, .slot-drum::after {
-  content:''; position:absolute; left:0; right:0; height:20px; z-index:2; pointer-events:none;
-}
-.slot-drum::before { top:0; background:linear-gradient(to bottom,#111,transparent); }
-.slot-drum::after  { bottom:0; background:linear-gradient(to top,#111,transparent); }
-
-/* Palanca */
-.palanca-wrap {
-  display:flex; flex-direction:column; align-items:center; gap:.5rem; width:100%;
-}
-.palanca-btn {
-  width:80px; height:80px;
-  background:radial-gradient(circle at 35% 35%, #ff6b6b, var(--rojo-oscuro));
-  border:3px solid #ff9999;
-  border-radius:50%;
-  font-size:2rem;
-  cursor:pointer;
-  box-shadow:0 6px 20px rgba(212,43,43,.6), inset 0 2px 0 rgba(255,255,255,.2);
-  transition:transform .1s, box-shadow .1s;
-  display:flex; align-items:center; justify-content:center;
-}
-.palanca-btn:active:not(:disabled){transform:scale(.88);box-shadow:0 2px 8px rgba(212,43,43,.4);}
+/* ══ PANTALLA 3 — SORTEO ══ */
+#pantalla-sorteo{display:none;min-height:100vh;background:linear-gradient(160deg,#1a0033,#0d001a,#001a0d);position:relative;overflow:hidden;}
+.sorteo-wrap{position:relative;z-index:2;width:100%;max-width:480px;margin:0 auto;padding:1.5rem 1rem 3rem;display:flex;flex-direction:column;align-items:center;}
+.sorteo-header{text-align:center;margin-bottom:1.5rem;width:100%;}
+.sorteo-header h2{font-family:'Black Han Sans',sans-serif;font-size:1.8rem;color:var(--amarillo);text-shadow:0 0 30px rgba(255,215,0,.5);}
+.sorteo-header p{font-size:.85rem;color:rgba(255,255,255,.5);margin-top:.3rem;}
+.btn-volver-sorteo{position:absolute;top:1.2rem;left:1rem;background:transparent;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:.4rem .7rem;color:rgba(255,255,255,.5);font-size:.78rem;cursor:pointer;font-family:'Nunito',sans-serif;}
+.maquina{width:100%;max-width:360px;background:linear-gradient(160deg,#2a0050,#1a0030);border:3px solid var(--amarillo);border-radius:24px;padding:1.5rem 1.2rem;box-shadow:0 0 60px rgba(123,47,190,.4);display:flex;flex-direction:column;align-items:center;gap:1rem;}
+.slot-pantalla{width:100%;background:#000;border:2px solid #444;border-radius:14px;padding:.8rem .5rem;display:flex;justify-content:center;gap:.4rem;box-shadow:inset 0 4px 20px rgba(0,0,0,.8);}
+.slot-drum{width:62px;height:80px;background:#111;border:1.5px solid #333;border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+.slot-digit{font-family:'Black Han Sans',sans-serif;font-size:2.8rem;color:var(--amarillo);text-shadow:0 0 20px rgba(255,215,0,.8);position:relative;z-index:1;transition:color .2s;}
+.slot-drum.spinning .slot-digit{animation:slotSpin .08s linear infinite;}
+@keyframes slotSpin{0%{transform:translateY(-60px);opacity:0;}50%{transform:translateY(0);opacity:1;}100%{transform:translateY(60px);opacity:0;}}
+.slot-drum::before,.slot-drum::after{content:'';position:absolute;left:0;right:0;height:20px;z-index:2;pointer-events:none;}
+.slot-drum::before{top:0;background:linear-gradient(to bottom,#111,transparent);}
+.slot-drum::after{bottom:0;background:linear-gradient(to top,#111,transparent);}
+.palanca-wrap{display:flex;flex-direction:column;align-items:center;gap:.5rem;width:100%;}
+.palanca-btn{width:80px;height:80px;background:radial-gradient(circle at 35% 35%,#ff6b6b,var(--rojo-oscuro));border:3px solid #ff9999;border-radius:50%;font-size:2rem;cursor:pointer;box-shadow:0 6px 20px rgba(212,43,43,.6);display:flex;align-items:center;justify-content:center;transition:transform .1s;}
+.palanca-btn:active:not(:disabled){transform:scale(.88);}
 .palanca-btn:disabled{opacity:.4;cursor:not-allowed;}
 .palanca-label{font-size:.75rem;color:rgba(255,255,255,.45);text-align:center;letter-spacing:1px;text-transform:uppercase;}
-
-/* Resultado ganador */
-.ganador-box {
-  width:100%; max-width:360px;
-  background:linear-gradient(135deg,var(--rojo),var(--rojo-oscuro));
-  border:2.5px solid var(--amarillo); border-radius:18px;
-  padding:1.3rem 1rem; text-align:center;
-  display:none;
-  animation:ganadorIn .5s cubic-bezier(.34,1.56,.64,1);
-}
+.ganador-box{width:100%;max-width:360px;background:linear-gradient(135deg,var(--rojo),var(--rojo-oscuro));border:2.5px solid var(--amarillo);border-radius:18px;padding:1.3rem 1rem;text-align:center;display:none;margin-top:1rem;animation:ganadorIn .5s cubic-bezier(.34,1.56,.64,1);}
 @keyframes ganadorIn{from{transform:scale(.7);opacity:0;}to{transform:scale(1);opacity:1;}}
 .ganador-box .g-label{font-size:.75rem;font-weight:900;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:2px;}
 .ganador-box .g-boleto{font-family:'Black Han Sans',sans-serif;font-size:2.5rem;color:var(--amarillo);margin:.3rem 0;}
 .ganador-box .g-nombre{font-family:'Black Han Sans',sans-serif;font-size:1.6rem;color:var(--blanco);line-height:1.2;}
 .ganador-box .g-tel{font-size:.85rem;color:rgba(255,255,255,.6);margin-top:.3rem;}
 .ganador-box .g-sub{font-size:.78rem;color:rgba(255,255,255,.4);margin-top:.5rem;}
-.cargando-txt{font-size:.85rem;color:rgba(255,255,255,.4);text-align:center;display:none;}
+.cargando-txt{font-size:.85rem;color:rgba(255,255,255,.4);text-align:center;display:none;margin-top:.5rem;}
 
-/* ══ MODAL ÉXITO ══ */
+/* ══ MODAL ══ */
 .modal-overlay{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;padding:1rem;}
 .modal-overlay.show{display:flex;}
 .modal{background:linear-gradient(160deg,#1a0800,#021208);border:2.5px solid var(--amarillo);border-radius:24px;padding:2rem 1.6rem;max-width:380px;width:100%;text-align:center;animation:modalIn .4s cubic-bezier(.34,1.56,.64,1);}
@@ -285,13 +198,13 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
 .boleto-card .bc-nums{font-family:'Black Han Sans',sans-serif;font-size:2.6rem;color:var(--amarillo);text-shadow:0 2px 0 rgba(0,0,0,.4);line-height:1;}
 .boleto-card .bc-count{font-size:.8rem;color:rgba(255,255,255,.55);margin-top:.35rem;}
 .modal .modal-detalle{font-size:.78rem;color:rgba(255,255,255,.4);margin-bottom:1.2rem;line-height:1.7;}
-.btn-cerrar{background:var(--amarillo);color:var(--negro);border:none;border-radius:10px;padding:.85rem 2.5rem;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;cursor:pointer;transition:transform .15s;}
-.btn-cerrar:hover{transform:scale(1.04);}
+.btn-cerrar{background:var(--amarillo);color:var(--negro);border:none;border-radius:10px;padding:.85rem 2.5rem;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;cursor:pointer;}
+
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#c0392b;color:white;padding:.75rem 1.6rem;border-radius:50px;font-weight:800;font-size:.88rem;z-index:200;opacity:0;pointer-events:none;transition:opacity .3s;white-space:nowrap;max-width:90vw;}
 .toast.show{opacity:1;}
 .ft{position:fixed;pointer-events:none;z-index:3;animation:floatUp linear forwards;opacity:0;font-size:1.5rem;}
 @keyframes floatUp{0%{opacity:.5;transform:translateY(0) rotate(0deg);}100%{opacity:0;transform:translateY(-110px) rotate(35deg);}}
-@media(max-width:400px){.row-2{grid-template-columns:1fr;}.slot-drum{width:52px;height:70px;}.slot-digit{font-size:2.2rem;}}
+@media(max-width:380px){.row-2{grid-template-columns:1fr;}.cn-num{font-size:.9rem;}.cn-bloque{min-width:30px;padding:.2rem .25rem;}}
 </style>
 </head>
 <body>
@@ -303,31 +216,19 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
 
   <div class="portada-bottom">
 
-    <!-- Cuenta regresiva -->
-    <div class="cuenta-wrap">
-      <div class="cuenta-titulo">⏳ Campaña activa — tiempo restante</div>
-      <div class="cuenta-bloques">
-        <div class="cuenta-bloque">
-          <div class="cuenta-num" id="cd-dias">00</div>
-          <div class="cuenta-label">Días</div>
-        </div>
-        <div class="cuenta-sep">:</div>
-        <div class="cuenta-bloque">
-          <div class="cuenta-num" id="cd-horas">00</div>
-          <div class="cuenta-label">Horas</div>
-        </div>
-        <div class="cuenta-sep">:</div>
-        <div class="cuenta-bloque">
-          <div class="cuenta-num" id="cd-min">00</div>
-          <div class="cuenta-label">Minutos</div>
-        </div>
-        <div class="cuenta-sep">:</div>
-        <div class="cuenta-bloque">
-          <div class="cuenta-num" id="cd-seg">00</div>
-          <div class="cuenta-label">Segundos</div>
-        </div>
+    <!-- Contador pastilla -->
+    <div class="cuenta-pastilla">
+      <div class="cp-titulo">⏳ Cierre</div>
+      <div class="cuenta-nums">
+        <div class="cn-bloque"><div class="cn-num" id="cd-dias">00</div><div class="cn-lbl">Días</div></div>
+        <div class="cn-sep">:</div>
+        <div class="cn-bloque"><div class="cn-num" id="cd-horas">00</div><div class="cn-lbl">Hrs</div></div>
+        <div class="cn-sep">:</div>
+        <div class="cn-bloque"><div class="cn-num" id="cd-min">00</div><div class="cn-lbl">Min</div></div>
+        <div class="cn-sep">:</div>
+        <div class="cn-bloque"><div class="cn-num" id="cd-seg">00</div><div class="cn-lbl">Seg</div></div>
       </div>
-      <div class="sorteo-fecha">🏆 Sorteo: Viernes 4 de Septiembre 2026</div>
+      <div class="cuenta-sorteo-fecha">🏆 Sorteo<br>4 Sep 2026</div>
     </div>
 
     <!-- Botón participar -->
@@ -336,13 +237,11 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
       <span class="btn-arrow">→</span>
     </button>
 
-    <!-- Botón sorteo (bloqueado) -->
-    <div class="btn-sorteo-wrap">
-      <button class="btn-sorteo" id="btn-sorteo" onclick="irASorteo()" disabled>
-        🎰 REALIZAR SORTEO
-      </button>
-      <div class="btn-sorteo-hint" id="sorteo-hint">🔒 Disponible al cierre de campaña — 31 Ago 2026</div>
-    </div>
+    <!-- Botón sorteo -->
+    <button class="btn-sorteo" id="btn-sorteo" onclick="irASorteo()">
+      🎰 REALIZAR SORTEO
+    </button>
+    <div class="btn-sorteo-hint" id="sorteo-hint">🔒 Disponible al cierre — 31 Ago 2026</div>
 
   </div>
 </div>
@@ -359,7 +258,6 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
       </div>
       <button class="btn-volver" onclick="volverPortada()">← Portada</button>
     </div>
-
     <div class="premio-pill">
       <div class="p-emoji">🏆</div>
       <div class="p-info">
@@ -367,17 +265,14 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
         <p>56 cajas · 12+3 pzas · Listo para vender</p>
       </div>
     </div>
-
     <div class="field">
       <label>Nombre del Cliente / Negocio</label>
       <input type="text" id="f-cliente" placeholder="Ej: Abarrotes El Tigre" autocomplete="off">
     </div>
-
     <div class="field">
       <label>Teléfono del Cliente</label>
       <input type="tel" id="f-telefono" placeholder="Ej: 993 123 4567" inputmode="tel" autocomplete="off">
     </div>
-
     <div class="row-2">
       <div class="field">
         <label>Folio Factura / Nota</label>
@@ -388,21 +283,17 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
         <input type="number" id="f-bultos" placeholder="0" min="1" max="999" inputmode="numeric">
       </div>
     </div>
-
     <div class="field">
       <label>Nombre del Vendedor</label>
-      <input type="text" id="f-vendedor" placeholder="Ej: Juan Pérez / Mostrador" autocomplete="off">
+      <input type="text" id="f-vendedor" placeholder="Ej: Juan Pérez" autocomplete="off">
     </div>
-
     <div class="preview-box vacio" id="preview-box">
       <p>Ingresa los bultos para ver cuántos boletos recibes</p>
     </div>
-
     <button class="btn-registrar" id="btn-reg" onclick="registrarVenta()">
       <span id="btn-txt">🎟️ Registrar y Obtener Boletos</span>
       <span class="spinner" id="spinner"></span>
     </button>
-
     <footer>
       Campaña válida del 1 al 31 de Agosto 2026<br>
       Solo mayoristas autorizados · Consulta bases con tu vendedor
@@ -418,8 +309,6 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
       <h2>🎰 SORTEO AXION</h2>
       <p>Jala la palanca para revelar al ganador</p>
     </div>
-
-    <!-- Máquina -->
     <div class="maquina">
       <div class="slot-pantalla">
         <div class="slot-drum" id="drum-0"><div class="slot-digit" id="digit-0">?</div></div>
@@ -427,16 +316,12 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
         <div class="slot-drum" id="drum-2"><div class="slot-digit" id="digit-2">?</div></div>
         <div class="slot-drum" id="drum-3"><div class="slot-digit" id="digit-3">?</div></div>
       </div>
-
       <div class="palanca-wrap">
         <button class="palanca-btn" id="palanca-btn" onclick="jalarPalanca()">🎰</button>
         <div class="palanca-label">¡Jala para sortear!</div>
       </div>
     </div>
-
     <div class="cargando-txt" id="cargando-txt">Consultando participantes...</div>
-
-    <!-- Resultado -->
     <div class="ganador-box" id="ganador-box">
       <div class="g-label">🏆 ¡Boleto Ganador!</div>
       <div class="g-boleto" id="g-boleto-num"></div>
@@ -445,11 +330,10 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
       <div class="g-tel" id="g-tel"></div>
       <div class="g-sub">📸 Toma captura de pantalla como comprobante oficial</div>
     </div>
-
   </div>
 </div>
 
-<!-- Modal éxito -->
+<!-- Modal -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal-stars">⭐🎉⭐</div>
@@ -467,273 +351,148 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════════
-//  CONFIG
-// ══════════════════════════════════════
-const SCRIPT_URL  = 'https://script.google.com/macros/s/AKfycbzDB1qL4HO0F-sBJ2x6KO1itsjFLQfIyPyiYbZdqD5WfuJM7FXaguYUdeZtcKQCb0m9/exec';
-const SHEET_ID    = '1Rrtj9NvpePQsy_pgJi-6vFGNFy5CfqaTNmdDrPkkGfQ';
-// Fecha fin de campaña (para cuenta regresiva y desbloqueo del sorteo)
-const FIN_CAMPANA = new Date('2026-09-01T00:00:00'); // 1 sep 2026 00:00 — fin del 31 ago
-const SORTEO_DATE = new Date('2026-09-04T12:00:00'); // 4 sep 2026
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDB1qL4HO0F-sBJ2x6KO1itsjFLQfIyPyiYbZdqD5WfuJM7FXaguYUdeZtcKQCb0m9/exec';
+const SHEET_ID   = '1Rrtj9NvpePQsy_pgJi-6vFGNFy5CfqaTNmdDrPkkGfQ';
+const FIN_CAMPANA = new Date('2026-09-01T00:00:00');
 
-// ══════════════════════════════════════
-//  CUENTA REGRESIVA
-// ══════════════════════════════════════
+// ── Cuenta regresiva ──
 function actualizarCuenta() {
-  const ahora = new Date();
-  const diff  = FIN_CAMPANA - ahora;
-
+  const diff = FIN_CAMPANA - new Date();
   if (diff <= 0) {
-    // Campaña terminada — desbloquear sorteo
-    document.getElementById('cd-dias').textContent  = '00';
-    document.getElementById('cd-horas').textContent = '00';
-    document.getElementById('cd-min').textContent   = '00';
-    document.getElementById('cd-seg').textContent   = '00';
-    desbloquearSorteo();
+    ['cd-dias','cd-horas','cd-min','cd-seg'].forEach(id=>document.getElementById(id).textContent='00');
     return;
   }
-
-  const dias  = Math.floor(diff / 86400000);
-  const horas = Math.floor((diff % 86400000) / 3600000);
-  const min   = Math.floor((diff % 3600000) / 60000);
-  const seg   = Math.floor((diff % 60000) / 1000);
-
-  document.getElementById('cd-dias').textContent  = String(dias).padStart(2,'0');
-  document.getElementById('cd-horas').textContent = String(horas).padStart(2,'0');
-  document.getElementById('cd-min').textContent   = String(min).padStart(2,'0');
-  document.getElementById('cd-seg').textContent   = String(seg).padStart(2,'0');
+  document.getElementById('cd-dias').textContent  = String(Math.floor(diff/86400000)).padStart(2,'0');
+  document.getElementById('cd-horas').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+  document.getElementById('cd-min').textContent   = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+  document.getElementById('cd-seg').textContent   = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
 }
-
-function desbloquearSorteo() {
-  const btn  = document.getElementById('btn-sorteo');
-  const hint = document.getElementById('sorteo-hint');
-  btn.disabled = false;
-  btn.classList.add('activo');
-  hint.textContent = '🎰 ¡El sorteo está listo! Toca para revelar al ganador';
-  hint.style.color = 'rgba(255,215,0,.7)';
-}
-
 actualizarCuenta();
-setInterval(actualizarCuenta, 1000);
+setInterval(actualizarCuenta,1000);
 
-// ══════════════════════════════════════
-//  NAVEGACIÓN
-// ══════════════════════════════════════
-function irAFormulario() {
-  document.getElementById('pantalla-portada').style.display = 'none';
-  document.getElementById('pantalla-form').style.display    = 'block';
-  window.scrollTo(0,0);
-}
-function volverPortada() {
-  document.getElementById('pantalla-portada').style.display = 'flex';
-  document.getElementById('pantalla-form').style.display    = 'none';
-  document.getElementById('pantalla-sorteo').style.display  = 'none';
-  window.scrollTo(0,0);
-}
-function irASorteo() {
-  document.getElementById('pantalla-portada').style.display = 'none';
-  document.getElementById('pantalla-sorteo').style.display  = 'block';
-  window.scrollTo(0,0);
+// ── Navegación ──
+function irAFormulario(){ document.getElementById('pantalla-portada').style.display='none'; document.getElementById('pantalla-form').style.display='block'; window.scrollTo(0,0); }
+function volverPortada(){ document.getElementById('pantalla-portada').style.display='flex'; document.getElementById('pantalla-form').style.display='none'; document.getElementById('pantalla-sorteo').style.display='none'; window.scrollTo(0,0); }
+function irASorteo(){ document.getElementById('pantalla-portada').style.display='none'; document.getElementById('pantalla-sorteo').style.display='block'; window.scrollTo(0,0); }
+
+// ── Formulario ──
+document.getElementById('f-bultos').addEventListener('input',actualizarPreview);
+function actualizarPreview(){
+  const n=parseInt(document.getElementById('f-bultos').value)||0;
+  const box=document.getElementById('preview-box');
+  if(n<1){box.className='preview-box vacio';box.innerHTML='<p>Ingresa los bultos para ver cuántos boletos recibes</p>';return;}
+  box.className='preview-box activo';
+  box.innerHTML=`<div><div class="pb-label">Recibirás ${n} boleto${n>1?'s':''}</div><div class="pb-nums">🎟️ × ${n}</div><div class="pb-sub">Los números exactos se asignan al guardar</div></div>`;
 }
 
-// ══════════════════════════════════════
-//  FORMULARIO — preview y registro
-// ══════════════════════════════════════
-document.getElementById('f-bultos').addEventListener('input', actualizarPreview);
-function actualizarPreview() {
-  const n   = parseInt(document.getElementById('f-bultos').value) || 0;
-  const box = document.getElementById('preview-box');
-  if (n < 1) {
-    box.className = 'preview-box vacio';
-    box.innerHTML = '<p>Ingresa los bultos para ver cuántos boletos recibes</p>';
-    return;
-  }
-  box.className = 'preview-box activo';
-  box.innerHTML = `<div>
-    <div class="pb-label">Recibirás ${n} boleto${n>1?'s':''}</div>
-    <div class="pb-nums">🎟️ × ${n}</div>
-    <div class="pb-sub">Los números exactos se asignan al guardar</div>
-  </div>`;
-}
-
-async function registrarVenta() {
-  const cliente  = document.getElementById('f-cliente').value.trim();
-  const telefono = document.getElementById('f-telefono').value.trim();
-  const folio    = document.getElementById('f-folio').value.trim().toUpperCase();
-  const bultos   = parseInt(document.getElementById('f-bultos').value) || 0;
-  const vendedor = document.getElementById('f-vendedor').value.trim();
-
-  if (!cliente)  return toast('⚠️ Ingresa el nombre del cliente');
-  if (!telefono) return toast('⚠️ Ingresa el teléfono del cliente');
-  if (!folio)    return toast('⚠️ Ingresa el folio de factura');
-  if (bultos<1)  return toast('⚠️ Ingresa al menos 1 bulto');
-  if (!vendedor) return toast('⚠️ Ingresa el nombre del vendedor');
-
+async function registrarVenta(){
+  const cliente=document.getElementById('f-cliente').value.trim();
+  const telefono=document.getElementById('f-telefono').value.trim();
+  const folio=document.getElementById('f-folio').value.trim().toUpperCase();
+  const bultos=parseInt(document.getElementById('f-bultos').value)||0;
+  const vendedor=document.getElementById('f-vendedor').value.trim();
+  if(!cliente) return toast('⚠️ Ingresa el nombre del cliente');
+  if(!telefono) return toast('⚠️ Ingresa el teléfono del cliente');
+  if(!folio) return toast('⚠️ Ingresa el folio de factura');
+  if(bultos<1) return toast('⚠️ Ingresa al menos 1 bulto');
+  if(!vendedor) return toast('⚠️ Ingresa el nombre del vendedor');
   setLoading(true);
   try {
-    const res = await fetch(SCRIPT_URL, {
-      method:'POST',
-      body: JSON.stringify({ cliente, telefono, folio, bultos, vendedor })
-    });
-    if (!res.ok) throw new Error('Error de red');
-    const data = await res.json();
-    if (data.error) throw new Error(data.error);
-    mostrarModal(cliente, data.boletoInicial, data.boletoFinal, bultos, folio, vendedor);
-    limpiarForm();
-    lanzarConfetti();
-  } catch(err) {
-    toast('❌ ' + (err.message==='Failed to fetch' ? 'Sin conexión. Verifica internet.' : err.message||'Error al guardar.'));
-  } finally {
-    setLoading(false);
-  }
+    const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({cliente,telefono,folio,bultos,vendedor})});
+    if(!res.ok) throw new Error('Error de red');
+    const data=await res.json();
+    if(data.error) throw new Error(data.error);
+    mostrarModal(cliente,data.boletoInicial,data.boletoFinal,bultos,folio,vendedor);
+    limpiarForm(); lanzarConfetti();
+  } catch(err){ toast('❌ '+(err.message==='Failed to fetch'?'Sin conexión.':err.message||'Error al guardar.')); }
+  finally{ setLoading(false); }
 }
+function setLoading(on){
+  document.getElementById('btn-reg').disabled=on;
+  document.getElementById('btn-txt').textContent=on?'Guardando...':'🎟️ Registrar y Obtener Boletos';
+  document.getElementById('spinner').style.display=on?'block':'none';
+}
+function limpiarForm(){ ['f-cliente','f-telefono','f-folio','f-bultos','f-vendedor'].forEach(id=>document.getElementById(id).value=''); actualizarPreview(); }
 
-function setLoading(on) {
-  const btn=document.getElementById('btn-reg');
-  const txt=document.getElementById('btn-txt');
-  const sp=document.getElementById('spinner');
-  btn.disabled=on;
-  txt.textContent=on?'Guardando...':'🎟️ Registrar y Obtener Boletos';
-  sp.style.display=on?'block':'none';
-}
-function limpiarForm() {
-  ['f-cliente','f-telefono','f-folio','f-bultos','f-vendedor'].forEach(id=>document.getElementById(id).value='');
-  actualizarPreview();
-}
-
-// ══════════════════════════════════════
-//  MODAL
-// ══════════════════════════════════════
-function mostrarModal(cliente,ini,fin,n,folio,vendedor) {
+// ── Modal ──
+function mostrarModal(cliente,ini,fin,n,folio,vendedor){
   document.getElementById('m-cliente').textContent=cliente;
   document.getElementById('m-nums').textContent=n===1?`# ${ini}`:`# ${ini}  →  # ${fin}`;
   document.getElementById('m-count').textContent=`${n} boleto${n>1?'s':''} en total`;
-  document.getElementById('m-detalle').innerHTML=
-    `Folio: <strong style="color:rgba(255,255,255,.7)">${folio}</strong> · ${vendedor}<br>
-     📸 Toma una foto de esta pantalla como comprobante`;
+  document.getElementById('m-detalle').innerHTML=`Folio: <strong style="color:rgba(255,255,255,.7)">${folio}</strong> · ${vendedor}<br>📸 Toma una foto de esta pantalla como comprobante`;
   document.getElementById('modal').classList.add('show');
 }
-function cerrarModal() { document.getElementById('modal').classList.remove('show'); }
+function cerrarModal(){ document.getElementById('modal').classList.remove('show'); }
 
-// ══════════════════════════════════════
-//  MÁQUINA TRAGAPERRAS
-// ══════════════════════════════════════
-let sorteoRealizado = false;
-let participantes   = [];
-
-async function jalarPalanca() {
-  if (sorteoRealizado) return;
-  const btn = document.getElementById('palanca-btn');
-  btn.disabled = true;
-
-  // Mostrar cargando
-  document.getElementById('cargando-txt').style.display = 'block';
-
-  // Cargar participantes del Sheet si no están cargados
-  if (participantes.length === 0) {
-    try {
-      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=VENTAS`;
-      const res  = await fetch(url);
-      const txt  = await res.text();
-      const json = JSON.parse(txt.substring(47).slice(0,-2));
-      const rows = json.table.rows;
-
-      // Construir lista de todos los boletos activos con sus dueños
-      rows.forEach(row => {
-        if (!row.c[0]) return; // skip vacíos
-        const estatus = row.c[8]?.v || 'Activo';
-        if (estatus === 'Cancelado') return;
-        const cliente  = row.c[3]?.v || '';
-        const telefono = row.c[9]?.v || '—'; // columna J = teléfono
-        const ini      = parseInt(row.c[6]?.v) || 0;
-        const fin      = parseInt(row.c[7]?.v) || 0;
-        for (let b = ini; b <= fin; b++) {
-          participantes.push({ boleto: b, cliente, telefono });
-        }
+// ── Tragaperras ──
+let sorteoRealizado=false, participantes=[];
+async function jalarPalanca(){
+  if(sorteoRealizado) return;
+  const btn=document.getElementById('palanca-btn');
+  btn.disabled=true;
+  document.getElementById('cargando-txt').style.display='block';
+  if(participantes.length===0){
+    try{
+      const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=VENTAS`;
+      const res=await fetch(url);
+      const txt=await res.text();
+      const json=JSON.parse(txt.substring(47).slice(0,-2));
+      const rows=json.table.rows;
+      rows.forEach(row=>{
+        if(!row.c[0]) return;
+        const estatus=row.c[8]?.v||'Activo';
+        if(estatus==='Cancelado') return;
+        const cliente=row.c[3]?.v||'';
+        const telefono=row.c[9]?.v||'—';
+        const ini=parseInt(row.c[6]?.v)||0;
+        const fin=parseInt(row.c[7]?.v)||0;
+        for(let b=ini;b<=fin;b++) participantes.push({boleto:b,cliente,telefono});
       });
-    } catch(e) {
-      toast('❌ No se pudieron cargar los participantes. Verifica conexión.');
-      btn.disabled = false;
-      document.getElementById('cargando-txt').style.display = 'none';
+    } catch(e){
+      toast('❌ No se pudieron cargar los participantes.');
+      btn.disabled=false;
+      document.getElementById('cargando-txt').style.display='none';
       return;
     }
   }
-
-  if (participantes.length === 0) {
-    toast('⚠️ No hay participantes registrados aún.');
-    btn.disabled = false;
-    document.getElementById('cargando-txt').style.display = 'none';
-    return;
-  }
-
-  document.getElementById('cargando-txt').style.display = 'none';
-
-  // Elegir ganador aleatorio
-  const ganador = participantes[Math.floor(Math.random() * participantes.length)];
-  const numStr  = String(ganador.boleto).padStart(4,'0');
-
-  // Animación de los tambores
-  const digits  = numStr.split('');
-  const drums   = [0,1,2,3].map(i => document.getElementById('drum-'+i));
-  const dEls    = [0,1,2,3].map(i => document.getElementById('digit-'+i));
-
-  // Iniciar spinning en todos
-  drums.forEach(d => d.classList.add('spinning'));
-  dEls.forEach(d  => d.textContent = Math.floor(Math.random()*10));
-
-  // Intervalo de números aleatorios durante el spin
-  const spinInterval = setInterval(() => {
-    dEls.forEach(d => d.textContent = Math.floor(Math.random()*10));
-  }, 80);
-
-  // Detener uno por uno con delay
-  const delays = [1200, 1800, 2400, 3000];
-  delays.forEach((delay, i) => {
-    setTimeout(() => {
+  if(participantes.length===0){ toast('⚠️ No hay participantes registrados aún.'); btn.disabled=false; document.getElementById('cargando-txt').style.display='none'; return; }
+  document.getElementById('cargando-txt').style.display='none';
+  const ganador=participantes[Math.floor(Math.random()*participantes.length)];
+  const numStr=String(ganador.boleto).padStart(4,'0');
+  const digits=numStr.split('');
+  const drums=[0,1,2,3].map(i=>document.getElementById('drum-'+i));
+  const dEls=[0,1,2,3].map(i=>document.getElementById('digit-'+i));
+  drums.forEach(d=>d.classList.add('spinning'));
+  const spinInterval=setInterval(()=>{ dEls.forEach(d=>d.textContent=Math.floor(Math.random()*10)); },80);
+  [1200,1800,2400,3000].forEach((delay,i)=>{
+    setTimeout(()=>{
       drums[i].classList.remove('spinning');
-      dEls[i].textContent  = digits[i];
-      // Efecto destello al parar
-      dEls[i].style.color = '#FFFFFF';
-      setTimeout(()=>{ dEls[i].style.color=''; }, 200);
-    }, delay);
+      dEls[i].textContent=digits[i];
+      dEls[i].style.color='#FFFFFF';
+      setTimeout(()=>{ dEls[i].style.color=''; },200);
+    },delay);
   });
-
-  // Al terminar todo mostrar ganador
-  setTimeout(() => {
-    clearInterval(spinInterval);
-    mostrarGanador(ganador, numStr);
-    lanzarConfetti();
-    sorteoRealizado = true;
-  }, 3400);
+  setTimeout(()=>{ clearInterval(spinInterval); mostrarGanador(ganador,numStr); lanzarConfetti(); sorteoRealizado=true; },3400);
+}
+function mostrarGanador(ganador,numStr){
+  const box=document.getElementById('ganador-box');
+  document.getElementById('g-boleto-num').textContent=`# ${numStr}`;
+  document.getElementById('g-nombre').textContent=ganador.cliente;
+  document.getElementById('g-tel').textContent=`📞 ${ganador.telefono}`;
+  box.style.display='block';
 }
 
-function mostrarGanador(ganador, numStr) {
-  const box = document.getElementById('ganador-box');
-  document.getElementById('g-boleto-num').textContent = `# ${numStr}`;
-  document.getElementById('g-nombre').textContent     = ganador.cliente;
-  document.getElementById('g-tel').textContent        = `📞 ${ganador.telefono}`;
-  box.style.display = 'block';
-}
+// ── Toast ──
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3500); }
 
-// ══════════════════════════════════════
-//  TOAST
-// ══════════════════════════════════════
-function toast(msg) {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3500);
-}
-
-// ══════════════════════════════════════
-//  CONFETTI
-// ══════════════════════════════════════
+// ── Confetti ──
 const canvas=document.getElementById('confetti-canvas');
 const ctx=canvas.getContext('2d');
 let parts=[],running=false;
 function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
 window.addEventListener('resize',resizeCanvas); resizeCanvas();
 function lanzarConfetti(){
-  const cols=['#FFD700','#FF3B3B','#25B54E','#FFFFFF','#FF8C00','#4EC3F0','#FFF176'];
+  const cols=['#FFD700','#FF3B3B','#25B54E','#FFFFFF','#FF8C00','#4EC3F0'];
   for(let i=0;i<160;i++) parts.push({x:Math.random()*canvas.width,y:-10,r:Math.random()*7+4,c:cols[Math.floor(Math.random()*cols.length)],vx:(Math.random()-.5)*7,vy:Math.random()*4+2,a:Math.random()*360,av:(Math.random()-.5)*9,shape:Math.random()>.5?'rect':'circle',life:1});
   if(!running) animateConfetti();
 }
@@ -743,7 +502,7 @@ function animateConfetti(){
   parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.a+=p.av;p.life-=.013;ctx.save();ctx.globalAlpha=p.life;ctx.fillStyle=p.c;ctx.translate(p.x,p.y);ctx.rotate(p.a*Math.PI/180);if(p.shape==='rect')ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.7);else{ctx.beginPath();ctx.arc(0,0,p.r/2,0,Math.PI*2);ctx.fill();}ctx.restore();});
   if(parts.length>0) requestAnimationFrame(animateConfetti); else running=false;
 }
-const emojis=['🎟️','🎊','⭐','🏆','✨','🎯'];
+const emojis=['🎟️','🎊','⭐','🏆','✨'];
 function floatingTick(){const el=document.createElement('div');el.className='ft';el.textContent=emojis[Math.floor(Math.random()*emojis.length)];el.style.left=Math.random()*100+'vw';el.style.bottom='0';el.style.animationDuration=(4+Math.random()*5)+'s';document.body.appendChild(el);setTimeout(()=>el.remove(),9000);}
 setInterval(floatingTick,2500);
 </script>
