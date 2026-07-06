@@ -486,8 +486,74 @@ function cerrarModal() { document.getElementById('modal').classList.remove('show
 let sorteoRealizado = false;
 let participantes   = [];
 
+// ── AUDIO ENGINE (Web Audio API) ──
+const AC = new (window.AudioContext || window.webkitAudioContext)();
+
+function playTick() {
+  const o = AC.createOscillator(), g = AC.createGain();
+  o.connect(g); g.connect(AC.destination);
+  o.type = 'square';
+  o.frequency.setValueAtTime(880, AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime(440, AC.currentTime + 0.04);
+  g.gain.setValueAtTime(0.18, AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + 0.05);
+  o.start(); o.stop(AC.currentTime + 0.05);
+}
+
+function playSpinLoop() {
+  return setInterval(() => {
+    const o = AC.createOscillator(), g = AC.createGain();
+    o.connect(g); g.connect(AC.destination);
+    o.type = 'sawtooth';
+    o.frequency.value = 200 + Math.random() * 300;
+    g.gain.setValueAtTime(0.06, AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + 0.03);
+    o.start(); o.stop(AC.currentTime + 0.03);
+  }, 60);
+}
+
+function playStop(i) {
+  const o = AC.createOscillator(), g = AC.createGain();
+  o.connect(g); g.connect(AC.destination);
+  o.type = 'square'; o.frequency.value = 150 - i * 15;
+  g.gain.setValueAtTime(0.4, AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + 0.25);
+  o.start(); o.stop(AC.currentTime + 0.25);
+  const ding = AC.createOscillator(), dg = AC.createGain();
+  ding.connect(dg); dg.connect(AC.destination);
+  ding.type = 'sine'; ding.frequency.value = 1200 - i * 80;
+  dg.gain.setValueAtTime(0.28, AC.currentTime);
+  dg.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + 0.45);
+  ding.start(); ding.stop(AC.currentTime + 0.45);
+}
+
+function playWin() {
+  const notas = [
+    [523,0.0],[659,0.15],[784,0.30],[1047,0.45],
+    [784,0.65],[1047,0.80],[1319,1.00],[1047,1.25]
+  ];
+  notas.forEach(([freq,t]) => {
+    const o = AC.createOscillator(), g = AC.createGain();
+    o.connect(g); g.connect(AC.destination);
+    o.type = 'sine'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0, AC.currentTime + t);
+    g.gain.linearRampToValueAtTime(0.3, AC.currentTime + t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + t + 0.25);
+    o.start(AC.currentTime + t); o.stop(AC.currentTime + t + 0.3);
+  });
+  [[130,0.0],[164,0.45],[196,0.80]].forEach(([freq,t]) => {
+    const o = AC.createOscillator(), g = AC.createGain();
+    o.connect(g); g.connect(AC.destination);
+    o.type = 'triangle'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.12, AC.currentTime + t);
+    g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + t + 0.4);
+    o.start(AC.currentTime + t); o.stop(AC.currentTime + t + 0.4);
+  });
+}
+
 async function jalarPalanca() {
   if (sorteoRealizado) return;
+  if (AC.state === "suspended") await AC.resume();
   const btn = document.getElementById('palanca-btn');
   btn.disabled = true;
   document.getElementById('cargando-txt').style.display = 'block';
@@ -536,38 +602,36 @@ async function jalarPalanca() {
   const drums = [0,1,2,3].map(i => document.getElementById('drum-'+i));
   const dEls  = [0,1,2,3].map(i => document.getElementById('digit-'+i));
 
-  // Arrancar spinning
+  // Arrancar spinning + audio
   drums.forEach(d => d.classList.add('spinning'));
-  const spinInterval = setInterval(() => {
-    dEls.forEach(d => d.textContent = Math.floor(Math.random()*10));
-  }, 80);
+  playTick();
+  const spinSoundId = playSpinLoop();
 
-  // Detener tambores uno por uno revelando el número real del boleto ganador
-  [1200, 1900, 2600, 3200].forEach((delay, i) => {
+  // Cada tambor tiene su propio intervalo de números random
+  const drumIntervals = [0,1,2,3].map(i =>
+    setInterval(() => { dEls[i].textContent = Math.floor(Math.random()*10); }, 80)
+  );
+
+  // 5 segundos de suspenso por tambor
+  [5000, 10000, 15000, 20000].forEach((delay, i) => {
     setTimeout(() => {
-      clearInterval(spinInterval); // detener el random
+      clearInterval(drumIntervals[i]);
       drums[i].classList.remove('spinning');
-      dEls[i].textContent = digits[i]; // ← número REAL del boleto
+      dEls[i].textContent = digits[i]; // número REAL del boleto
       dEls[i].style.color = '#FFFFFF';
-      setTimeout(() => { dEls[i].style.color = ''; }, 300);
-      // Reanudar random para los que siguen
-      if (i < 3) {
-        const stillSpinning = [i+1,i+2,i+3].filter(x=>x<4);
-        const resumeInterval = setInterval(() => {
-          stillSpinning.forEach(x => {
-            if (drums[x].classList.contains('spinning')) dEls[x].textContent = Math.floor(Math.random()*10);
-          });
-        }, 80);
-        setTimeout(() => clearInterval(resumeInterval), [700,600,600][i]);
-      }
+      playStop(i); // sonido click de parada + ding
+      setTimeout(() => { dEls[i].style.color = ''; }, 350);
+      if (i === 3) clearInterval(spinSoundId);
     }, delay);
   });
 
+  // Mostrar ganador 1.2s después del último tambor
   setTimeout(() => {
     mostrarGanador(ganador, numStr);
     lanzarConfetti();
+    playWin(); // fanfarria de festejo
     sorteoRealizado = true;
-  }, 3600);
+  }, 21200);
 }
 
 function mostrarGanador(ganador, numStr) {
