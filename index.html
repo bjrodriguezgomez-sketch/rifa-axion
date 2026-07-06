@@ -622,31 +622,45 @@ function irASorteo() {
   window.scrollTo(0,0);
 }
 
-// ── Preview boletos ──
-document.getElementById('f-bultos').addEventListener('input', actualizarPreview);
-function actualizarPreview() {
-  const n   = parseInt(document.getElementById('f-bultos').value) || 0;
-  const box = document.getElementById('preview-box');
-  if (n < 1) { box.className='preview-box vacio'; box.innerHTML='<p>Ingresa los bultos para ver cuántos boletos recibes</p>'; return; }
-  box.className = 'preview-box activo';
-  box.innerHTML = `<div><div class="pb-label">Recibirás ${n} boleto${n>1?'s':''}</div><div class="pb-nums">🎟️ × ${n}</div><div class="pb-sub">Los números exactos se asignan al guardar</div></div>`;
+// ── Total boletos en tiempo real ──
+document.getElementById('productos-lista').addEventListener('input', function(e) {
+  if (!e.target.classList.contains('prod-qty')) return;
+  actualizarTotal();
+  const row = e.target.closest('.prod-row');
+  row.classList.toggle('activa', (parseInt(e.target.value)||0) > 0);
+});
+
+function actualizarTotal() {
+  const total = Array.from(document.querySelectorAll('.prod-qty'))
+    .reduce((s,i) => s + (parseInt(i.value)||0), 0);
+  document.getElementById('total-num').textContent = total;
+  document.getElementById('total-bar').style.boxShadow =
+    total > 0 ? '0 4px 20px rgba(255,215,0,.35)' : 'none';
+}
+
+function obtenerProductos() {
+  return Array.from(document.querySelectorAll('.prod-qty'))
+    .filter(i => (parseInt(i.value)||0) > 0)
+    .map(i => ({ nombre: i.dataset.prod, cajas: parseInt(i.value) }));
 }
 
 // ── Registro ──
 async function registrarVenta() {
-  const cliente  = document.getElementById('f-cliente').value.trim();
-  const telefono = document.getElementById('f-telefono').value.trim();
-  const folio    = document.getElementById('f-folio').value.trim().toUpperCase();
-  const bultos   = parseInt(document.getElementById('f-bultos').value) || 0;
-  const vendedor = document.getElementById('f-vendedor').value.trim();
-  if (!cliente)  return toast('⚠️ Ingresa el nombre del cliente');
-  if (!telefono) return toast('⚠️ Ingresa el teléfono del cliente');
-  if (!folio)    return toast('⚠️ Ingresa el folio de factura');
-  if (bultos<1)  return toast('⚠️ Ingresa al menos 1 bulto');
-  if (!vendedor) return toast('⚠️ Ingresa el nombre del vendedor');
+  const cliente   = document.getElementById('f-cliente').value.trim();
+  const telefono  = document.getElementById('f-telefono').value.trim();
+  const folio     = document.getElementById('f-folio').value.trim().toUpperCase();
+  const vendedor  = document.getElementById('f-vendedor').value.trim();
+  const productos = obtenerProductos();
+  const bultos    = productos.reduce((s,p) => s + p.cajas, 0);
+
+  if (!cliente)   return toast('⚠️ Ingresa el nombre del cliente');
+  if (!telefono)  return toast('⚠️ Ingresa el teléfono del cliente');
+  if (!folio)     return toast('⚠️ Ingresa el folio de factura');
+  if (bultos < 1) return toast('⚠️ Ingresa al menos 1 caja de producto');
+  if (!vendedor)  return toast('⚠️ Ingresa el nombre del vendedor');
   setLoading(true);
   try {
-    const res  = await fetch(SCRIPT_URL, { method:'POST', body:JSON.stringify({cliente,telefono,folio,bultos,vendedor}) });
+    const res = await fetch(SCRIPT_URL, { method:'POST', body:JSON.stringify({cliente,telefono,folio,bultos,vendedor,productos}) });
     if (!res.ok) throw new Error('Error de red');
     const data = await res.json();
     if (data.error) throw new Error(data.error);
