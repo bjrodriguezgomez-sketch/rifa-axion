@@ -186,6 +186,55 @@ input:focus{border-color:var(--amarillo);background:rgba(255,215,0,.06);}
 .pb-label{font-size:.7rem;font-weight:900;color:var(--amarillo);text-transform:uppercase;letter-spacing:1px;margin-bottom:.2rem;}
 .pb-nums{font-family:'Black Han Sans',sans-serif;font-size:1.7rem;color:var(--blanco);letter-spacing:2px;}
 .pb-sub{font-size:.75rem;color:rgba(255,255,255,.4);margin-top:.1rem;}
+/* ── Lista de productos ── */
+.productos-lista {
+  background:rgba(0,0,0,.2);
+  border:1.5px solid rgba(255,255,255,.12);
+  border-radius:12px;
+  overflow:hidden;
+}
+.prod-row {
+  display:flex; align-items:center;
+  padding:.6rem .9rem;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  gap:.7rem;
+}
+.prod-row:last-child { border-bottom:none; }
+.prod-nombre {
+  flex:1; font-size:.85rem; font-weight:700;
+  color:rgba(255,255,255,.8); line-height:1.3;
+}
+.prod-qty {
+  width:72px !important; flex-shrink:0;
+  background:rgba(255,255,255,.1) !important;
+  border:1.5px solid rgba(255,255,255,.2) !important;
+  border-radius:8px !important;
+  padding:.5rem .6rem !important;
+  font-size:1rem !important; font-weight:800 !important;
+  color:var(--blanco) !important;
+  text-align:center;
+}
+.prod-qty:focus {
+  border-color:var(--amarillo) !important;
+  background:rgba(255,215,0,.1) !important;
+}
+.prod-row:has(.prod-qty:not([value=""]):not([value="0"])) .prod-nombre,
+.prod-row.activa .prod-nombre {
+  color:var(--amarillo);
+}
+/* Total boletos dinámico */
+.total-boletos-bar {
+  background:linear-gradient(135deg,var(--rojo),var(--rojo-oscuro));
+  border:2px solid var(--amarillo);
+  border-radius:12px;
+  padding:.75rem 1rem;
+  display:flex; align-items:center; justify-content:space-between;
+  margin:.3rem 0 1rem;
+}
+.tb-label { font-size:.78rem; font-weight:900; color:rgba(255,255,255,.7); text-transform:uppercase; letter-spacing:1px; }
+.tb-num { font-family:'Black Han Sans',sans-serif; font-size:1.8rem; color:var(--amarillo); line-height:1; }
+.tb-sub { font-size:.65rem; color:rgba(255,255,255,.45); }
+
 .btn-registrar{width:100%;background:linear-gradient(135deg,var(--verde-medio),var(--verde-claro));border:none;border-radius:14px;padding:1.05rem;font-family:'Black Han Sans',sans-serif;font-size:1.25rem;color:var(--blanco);letter-spacing:1px;cursor:pointer;box-shadow:0 6px 24px rgba(27,138,58,.5);display:flex;align-items:center;justify-content:center;gap:.5rem;}
 .btn-registrar:active:not(:disabled){transform:scale(.97);}
 .btn-registrar:disabled{opacity:.45;cursor:not-allowed;}
@@ -417,10 +466,61 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
     <div class="field"><label>Teléfono del Cliente</label><input type="tel" id="f-telefono" placeholder="Ej: 993 123 4567" inputmode="tel" autocomplete="off"></div>
     <div class="row-2">
       <div class="field"><label>Folio Factura / Nota</label><input type="text" id="f-folio" placeholder="FAC-001" autocomplete="off"></div>
-      <div class="field"><label>Bultos Comprados</label><input type="number" id="f-bultos" placeholder="0" min="1" max="999" inputmode="numeric"></div>
+      <div class="field"><label>Nombre del Vendedor</label><input type="text" id="f-vendedor" placeholder="Ej: Juan Pérez" autocomplete="off"></div>
     </div>
-    <div class="field"><label>Nombre del Vendedor</label><input type="text" id="f-vendedor" placeholder="Ej: Juan Pérez" autocomplete="off"></div>
-    <div class="preview-box vacio" id="preview-box"><p>Ingresa los bultos para ver cuántos boletos recibes</p></div>
+
+    <!-- Lista de productos -->
+    <div class="field">
+      <label>Cajas por Producto</label>
+      <div class="productos-lista" id="productos-lista">
+        <div class="prod-row">
+          <span class="prod-nombre">Axion Liq Bicarbonato y Limón 1.4L</span>
+          <input type="number" class="prod-qty" data-prod="Axion Liq Bicarbonato y Limón 1.4L" placeholder="0" min="0" max="9999" inputmode="numeric">
+        </div>
+        <div class="prod-row">
+          <span class="prod-nombre">Axion Liq Limón 400ml</span>
+          <input type="number" class="prod-qty" data-prod="Axion Liq Limón 400ml" placeholder="0" min="0" max="9999" inputmode="numeric">
+        </div>
+        <div class="prod-row">
+          <span class="prod-nombre">Axion Polvo 250g</span>
+          <input type="number" class="prod-qty" data-prod="Axion Polvo 250g" placeholder="0" min="0" max="9999" inputmode="numeric">
+        </div>
+        <div class="prod-row">
+          <span class="prod-nombre">Axion Liq Limón 900ml</span>
+          <input type="number" class="prod-qty" data-prod="Axion Liq Limón 900ml" placeholder="0" min="0" max="9999" inputmode="numeric">
+        </div>
+        <div class="prod-row">
+          <span class="prod-nombre">Axion Liq Limón 640ml</span>
+          <input type="number" class="prod-qty" data-prod="Axion Liq Limón 640ml" placeholder="0" min="0" max="9999" inputmode="numeric">
+        </div>
+        <div class="prod-row">
+          <span class="prod-nombre">Axion Liq Limón 280ml</span>
+          <input type="number" class="prod-qty" data-prod="Axion Liq Limón 280ml" placeholder="0" min="0" max="9999" inputmode="numeric">
+        </div>
+        <div class="prod-row">
+          <span class="prod-nombre">Axion Polvo Limón 720g</span>
+          <input type="number" class="prod-qty" data-prod="Axion Polvo Limón 720g" placeholder="0" min="0" max="9999" inputmode="numeric">
+        </div>
+        <div class="prod-row">
+          <span class="prod-nombre">Axion Liq 280ml Cja 12+3 Pz Grat</span>
+          <input type="number" class="prod-qty" data-prod="Axion Liq 280ml Cja 12+3 Pz Grat" placeholder="0" min="0" max="9999" inputmode="numeric">
+        </div>
+        <div class="prod-row">
+          <span class="prod-nombre">Axion Liq 400ml Cja 12+3 Pz Grat</span>
+          <input type="number" class="prod-qty" data-prod="Axion Liq 400ml Cja 12+3 Pz Grat" placeholder="0" min="0" max="9999" inputmode="numeric">
+        </div>
+      </div>
+    </div>
+    <div class="total-boletos-bar" id="total-bar">
+      <div>
+        <div class="tb-label">Total de boletos</div>
+        <div class="tb-sub">Suma de todas las cajas</div>
+      </div>
+      <div style="text-align:right">
+        <div class="tb-num" id="total-num">0</div>
+        <div class="tb-sub">boletos</div>
+      </div>
+    </div>
     <button class="btn-registrar" id="btn-reg" onclick="registrarVenta()">
       <span id="btn-txt">🎟️ Registrar y Obtener Boletos</span>
       <span class="spinner" id="spinner"></span>
@@ -562,8 +662,9 @@ function setLoading(on) {
   document.getElementById('spinner').style.display = on ? 'block' : 'none';
 }
 function limpiarForm() {
-  ['f-cliente','f-telefono','f-folio','f-bultos','f-vendedor'].forEach(id => document.getElementById(id).value='');
-  actualizarPreview();
+  ['f-cliente','f-telefono','f-folio','f-vendedor'].forEach(id => document.getElementById(id).value='');
+  document.querySelectorAll('.prod-qty').forEach(i => { i.value=''; i.closest('.prod-row').classList.remove('activa'); });
+  actualizarTotal();
 }
 
 // ── Modal ──
