@@ -15,6 +15,72 @@
 html,body { width:100%; height:100%; font-family:'Nunito',sans-serif; overflow-x:hidden; }
 #confetti-canvas { position:fixed; inset:0; z-index:5; pointer-events:none; }
 
+
+/* ══ PANTALLA LOGIN ══ */
+#pantalla-login {
+  position:fixed; inset:0; z-index:100;
+  background:linear-gradient(160deg, #0d0000 0%, #1a0505 40%, #021208 100%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:2rem;
+}
+.login-logo {
+  width:120px; border-radius:16px; margin-bottom:1.5rem;
+  border:3px solid var(--amarillo);
+  box-shadow:0 0 30px rgba(255,215,0,.3);
+}
+.login-titulo {
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.8rem; color:var(--amarillo);
+  text-align:center; line-height:1.1; margin-bottom:.4rem;
+  text-shadow:0 0 20px rgba(255,215,0,.4);
+}
+.login-sub {
+  font-size:.85rem; color:rgba(255,255,255,.5);
+  text-align:center; margin-bottom:2rem; line-height:1.5;
+}
+.login-card {
+  width:100%; max-width:360px;
+  background:rgba(255,255,255,.06);
+  border:1.5px solid rgba(255,215,0,.2);
+  border-radius:20px;
+  padding:1.8rem 1.5rem;
+  display:flex; flex-direction:column; align-items:center; gap:1rem;
+}
+.login-card p {
+  font-size:.82rem; color:rgba(255,255,255,.5);
+  text-align:center; line-height:1.5;
+}
+/* Botón Google oficial */
+.g-signin-btn {
+  display:flex; align-items:center; gap:.8rem;
+  background:var(--blanco); color:#333;
+  border:none; border-radius:10px;
+  padding:.85rem 1.4rem;
+  font-family:'Nunito',sans-serif; font-size:.95rem; font-weight:700;
+  cursor:pointer; width:100%;
+  box-shadow:0 4px 16px rgba(0,0,0,.3);
+  transition:transform .15s, box-shadow .15s;
+}
+.g-signin-btn:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(0,0,0,.4); }
+.g-signin-btn:active { transform:scale(.97); }
+.g-signin-btn svg { flex-shrink:0; }
+.login-error {
+  font-size:.8rem; color:#ff6b6b; text-align:center;
+  display:none; margin-top:.3rem;
+}
+.login-cargando {
+  font-size:.82rem; color:rgba(255,255,255,.4);
+  text-align:center; display:none;
+}
+.login-usuario {
+  position:fixed; top:.7rem; right:.7rem; z-index:200;
+  background:rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.15);
+  border-radius:20px; padding:.3rem .7rem;
+  font-size:.7rem; color:rgba(255,255,255,.5);
+  display:flex; align-items:center; gap:.4rem;
+}
+.login-usuario img { width:20px; height:20px; border-radius:50%; }
+
 /* ══ PANTALLA 1 — PORTADA ══ */
 #pantalla-portada {
   position:relative;
@@ -273,6 +339,31 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
 <body>
 <canvas id="confetti-canvas"></canvas>
 
+<!-- ══ PANTALLA LOGIN ══ -->
+<div id="pantalla-login">
+  <img class="login-logo" src="bg.png" alt="Axion">
+  <div class="login-titulo">¡La Axion<br>de Ganar!</div>
+  <p class="login-sub">Sistema de registro de ventas<br>y sorteo digital</p>
+  <div class="login-card">
+    <p>🔐 Acceso exclusivo para el equipo autorizado de Axion</p>
+    <button class="g-signin-btn" onclick="iniciarLoginGoogle()">
+      <svg width="20" height="20" viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.2l6.8-6.8C35.8 2.3 30.3 0 24 0 14.6 0 6.6 5.5 2.7 13.5l7.9 6.1C12.5 13 17.8 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17z"/>
+        <path fill="#FBBC05" d="M10.6 28.4A14.8 14.8 0 0 1 9.5 24c0-1.5.3-3 .7-4.4L2.3 13.5A23.9 23.9 0 0 0 0 24c0 3.8.9 7.4 2.5 10.6l8.1-6.2z"/>
+        <path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.5-5.8c-2 1.4-4.6 2.2-7.7 2.2-6.2 0-11.5-4.2-13.4-9.8l-8 6.2C6.5 42.4 14.6 48 24 48z"/>
+      </svg>
+      Iniciar sesión con Google
+    </button>
+    <div class="login-error" id="login-error">⛔ Tu correo no tiene acceso autorizado.<br>Contacta a tu supervisor.</div>
+    <div class="login-cargando" id="login-cargando">⏳ Verificando acceso...</div>
+  </div>
+</div>
+<div class="login-usuario" id="login-usuario" style="display:none">
+  <img id="usuario-foto" src="" alt="">
+  <span id="usuario-nombre"></span>
+</div>
+
 <!-- ══ PANTALLA 1 — PORTADA ══ -->
 <div id="pantalla-portada">
   <img class="banner-img" src="bg.png" alt="¡La Axion de Ganar!">
@@ -409,6 +500,9 @@ function actualizarCuenta() {
 }
 actualizarCuenta();
 setInterval(actualizarCuenta, 1000);
+
+// Ocultar portada al inicio — mostrar solo después del login
+document.getElementById('pantalla-portada').style.display = 'none';
 
 // ── Navegación ──
 function irAFormulario() {
@@ -561,21 +655,12 @@ async function jalarPalanca() {
   // Cargar participantes del Sheet
   if (participantes.length === 0) {
     try {
-      const url  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=VENTAS`;
+      // Leer participantes VÍA Apps Script (Sheet puede estar restringido)
+      const url  = `${SCRIPT_URL}?accion=participantes`;
       const res  = await fetch(url);
-      const txt  = await res.text();
-      const json = JSON.parse(txt.substring(47).slice(0,-2));
-      const rows = json.table.rows;
-      rows.forEach(row => {
-        if (!row.c || !row.c[0] || row.c[0].v === 'ID') return;
-        const estatus  = row.c[8]?.v || 'Activo';
-        if (estatus === 'Cancelado') return;
-        const cliente  = row.c[3]?.v || '';
-        const telefono = row.c[9]?.v  || '—';
-        const ini      = parseInt(row.c[6]?.v) || 0;
-        const fin      = parseInt(row.c[7]?.v) || 0;
-        for (let b = ini; b <= fin; b++) participantes.push({ boleto:b, cliente, telefono });
-      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      participantes = data.participantes || [];
     } catch(e) {
       toast('❌ No se pudieron cargar los participantes.');
       btn.disabled = false;
@@ -669,5 +754,70 @@ const emojis=['🎟️','🎊','⭐','🏆','✨'];
 function floatingTick(){const el=document.createElement('div');el.className='ft';el.textContent=emojis[Math.floor(Math.random()*emojis.length)];el.style.left=Math.random()*100+'vw';el.style.bottom='0';el.style.animationDuration=(4+Math.random()*5)+'s';document.body.appendChild(el);setTimeout(()=>el.remove(),9000);}
 setInterval(floatingTick,2500);
 </script>
+
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script>
+// ══════════════════════════════════════
+//  CONFIGURACIÓN GOOGLE LOGIN
+// ══════════════════════════════════════
+// IMPORTANTE: Reemplaza con tu Google Client ID
+const GOOGLE_CLIENT_ID = '1098667318582-fbtth3o8fg7qtr2u6paqv9qsqa0iperq.apps.googleusercontent.com';
+
+let googleUser = null;
+
+function iniciarLoginGoogle() {
+  document.getElementById('login-error').style.display    = 'none';
+  document.getElementById('login-cargando').style.display = 'block';
+
+  google.accounts.oauth2.initTokenClient({
+    client_id: GOOGLE_CLIENT_ID,
+    scope: 'email profile',
+    callback: async (tokenResponse) => {
+      if (tokenResponse.error) {
+        document.getElementById('login-cargando').style.display = 'none';
+        document.getElementById('login-error').style.display    = 'block';
+        document.getElementById('login-error').textContent      = '❌ Error al iniciar sesión. Intenta de nuevo.';
+        return;
+      }
+      // Obtener info del usuario
+      const userInfo = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
+      }).then(r => r.json());
+
+      googleUser = userInfo;
+      await verificarAcceso(userInfo.email, userInfo.name, userInfo.picture);
+    }
+  }).requestAccessToken();
+}
+
+async function verificarAcceso(email, nombre, foto) {
+  document.getElementById('login-cargando').style.display = 'block';
+  try {
+    const url = `${SCRIPT_URL}?accion=verificarAcceso&correo=${encodeURIComponent(email)}`;
+    const res  = await fetch(url);
+    const data = await res.json();
+
+    if (data.autorizado) {
+      // Acceso concedido
+      document.getElementById('pantalla-login').style.display = 'none';
+      document.getElementById('pantalla-portada').style.display = 'flex';
+      // Mostrar usuario en esquina
+      document.getElementById('login-usuario').style.display = 'flex';
+      document.getElementById('usuario-foto').src            = foto || '';
+      document.getElementById('usuario-nombre').textContent  = nombre.split(' ')[0];
+    } else {
+      // Acceso denegado
+      document.getElementById('login-cargando').style.display = 'none';
+      document.getElementById('login-error').style.display    = 'block';
+    }
+  } catch(err) {
+    document.getElementById('login-cargando').style.display = 'none';
+    document.getElementById('login-error').style.display    = 'block';
+    document.getElementById('login-error').textContent      = '❌ Error de conexión. Verifica internet.';
+  }
+}
+</script>
+
 </body>
 </html>
