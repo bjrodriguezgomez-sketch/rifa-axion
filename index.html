@@ -145,7 +145,7 @@ html,body { width:100%; height:100%; font-family:'Nunito',sans-serif; overflow-x
 .btn-arrow{font-size:1.1rem;animation:arrowBounce 1.2s ease-in-out infinite;}
 @keyframes arrowBounce{0%,100%{transform:translateX(0);}50%{transform:translateX(5px);}}
 
-.btn-sorteo {
+.btn-selección {
   width:100%; max-width:420px;
   background:linear-gradient(135deg,#7B2FBE,#4A0D8F);
   border:2.5px solid var(--amarillo); border-radius:50px;
@@ -156,8 +156,8 @@ html,body { width:100%; height:100%; font-family:'Nunito',sans-serif; overflow-x
   box-shadow:0 4px 20px rgba(123,47,190,.5);
   display:flex; align-items:center; justify-content:center; gap:.5rem;
 }
-.btn-sorteo:active{transform:scale(.96);}
-.btn-sorteo-hint{font-size:.65rem;color:rgba(255,255,255,.4);text-align:center;margin-top:-.2rem;}
+.btn-selección:active{transform:scale(.96);}
+.btn-selección-hint{font-size:.65rem;color:rgba(255,255,255,.4);text-align:center;margin-top:-.2rem;}
 
 /* ══ PANTALLA 2 — FORMULARIO ══ */
 #pantalla-form{display:none;min-height:100vh;position:relative;overflow:hidden;}
@@ -222,8 +222,8 @@ input:focus{border-color:var(--amarillo);background:rgba(255,215,0,.06);}
 .prod-row.activa .prod-nombre {
   color:var(--amarillo);
 }
-/* Total boletos dinámico */
-.total-boletos-bar {
+/* Total registros dinámico */
+.total-registros-bar {
   background:linear-gradient(135deg,var(--rojo),var(--rojo-oscuro));
   border:2px solid var(--amarillo);
   border-radius:12px;
@@ -242,30 +242,30 @@ input:focus{border-color:var(--amarillo);background:rgba(255,215,0,.06);}
 @keyframes spin{to{transform:rotate(360deg);}}
 footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,255,.2);line-height:1.8;}
 
-/* ══ PANTALLA 3 — SORTEO ══ */
-#pantalla-sorteo{
+/* ══ PANTALLA 3 — SELECCIÓN ══ */
+#pantalla-selección{
   display:none; min-height:100vh;
   background:linear-gradient(160deg, #8B0000 0%, #A01E1E 40%, #6B0000 100%);
   position:relative; overflow:hidden;
 }
 /* Estrellas decorativas */
-#pantalla-sorteo::before{
+#pantalla-selección::before{
   content:''; position:absolute; inset:0;
   background: radial-gradient(circle at 20% 20%, rgba(255,215,0,.08) 0%, transparent 50%),
               radial-gradient(circle at 80% 80%, rgba(255,215,0,.08) 0%, transparent 50%);
 }
-.sorteo-wrap{position:relative;z-index:2;width:100%;max-width:480px;margin:0 auto;padding:1rem 1rem 3rem;display:flex;flex-direction:column;align-items:center;gap:1rem;}
+.selección-wrap{position:relative;z-index:2;width:100%;max-width:480px;margin:0 auto;padding:1rem 1rem 3rem;display:flex;flex-direction:column;align-items:center;gap:1rem;}
 
-/* Header sorteo */
-.sorteo-top{width:100%;display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;}
-.btn-volver-sorteo{
+/* Header selección */
+.selección-top{width:100%;display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;}
+.btn-volver-selección{
   background:rgba(255,255,255,.15);
   border:1px solid rgba(255,255,255,.3);
   border-radius:8px; padding:.45rem .8rem;
   color:var(--blanco); font-size:.8rem;
   cursor:pointer; font-family:'Nunito',sans-serif; font-weight:700;
 }
-.sorteo-titulo{font-family:'Black Han Sans',sans-serif;font-size:1.6rem;color:var(--amarillo);text-shadow:0 2px 10px rgba(0,0,0,.4);}
+.selección-titulo{font-family:'Black Han Sans',sans-serif;font-size:1.6rem;color:var(--amarillo);text-shadow:0 2px 10px rgba(0,0,0,.4);}
 
 /* Máquina */
 .maquina{
@@ -347,7 +347,7 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
 @keyframes ganadorIn{from{transform:scale(.7);opacity:0;}to{transform:scale(1);opacity:1;}}
 .g-trofeo{font-size:2.5rem;margin-bottom:.3rem;}
 .g-label{font-size:.72rem;font-weight:900;color:var(--rojo);text-transform:uppercase;letter-spacing:2px;}
-.g-boleto{
+.g-registro{
   font-family:'Black Han Sans',sans-serif;
   font-size:2.8rem; color:var(--rojo);
   margin:.2rem 0; line-height:1;
@@ -370,8 +370,8 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
 .modal-stars{font-size:2rem;margin-bottom:.3rem;letter-spacing:4px;}
 .modal h2{font-family:'Black Han Sans',sans-serif;font-size:1.5rem;color:var(--amarillo);margin-bottom:.3rem;}
 .modal .modal-cliente{font-size:.9rem;color:rgba(255,255,255,.65);margin-bottom:1.2rem;}
-.boleto-card{background:linear-gradient(135deg,var(--rojo),var(--rojo-oscuro));border:2.5px solid var(--amarillo);border-radius:16px;padding:1.2rem 1rem;margin-bottom:1.1rem;position:relative;overflow:hidden;}
-.boleto-card::before{content:'BOLETO';position:absolute;top:8px;right:10px;font-size:.6rem;font-weight:900;letter-spacing:3px;color:rgba(255,255,255,.2);}
+.registro-card{background:linear-gradient(135deg,var(--rojo),var(--rojo-oscuro));border:2.5px solid var(--amarillo);border-radius:16px;padding:1.2rem 1rem;margin-bottom:1.1rem;position:relative;overflow:hidden;}
+.registro-card::before{content:'REGISTRO';position:absolute;top:8px;right:10px;font-size:.6rem;font-weight:900;letter-spacing:3px;color:rgba(255,255,255,.2);}
 .bc-label{font-size:.7rem;font-weight:900;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:2px;margin-bottom:.3rem;}
 .bc-nums{font-family:'Black Han Sans',sans-serif;font-size:2.6rem;color:var(--amarillo);text-shadow:0 2px 0 rgba(0,0,0,.4);line-height:1;}
 .bc-count{font-size:.8rem;color:rgba(255,255,255,.55);margin-top:.35rem;}
@@ -392,7 +392,7 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
 <div id="pantalla-login">
   <img class="login-logo" src="bg.png" alt="Axion">
   <div class="login-titulo">¡La Axion<br>de Ganar!</div>
-  <p class="login-sub">Sistema de registro de ventas<br>y sorteo digital</p>
+  <p class="login-sub">Sistema de registro de ventas<br>y selección digital</p>
   <div class="login-card">
     <p>🔐 Acceso exclusivo para el equipo autorizado de Axion</p>
     <button class="g-signin-btn" onclick="iniciarLoginGoogle()">
@@ -419,7 +419,7 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
   <div class="portada-overlay">
     <!-- Contador -->
     <div class="cuenta-pastilla">
-      <div class="cp-titulo">⏳ Cierre</div>
+      <div class="cp-titulo">⏳ Cierre Dinámica</div>
       <div class="cuenta-nums">
         <div class="cn-bloque"><div class="cn-num" id="cd-dias">00</div><div class="cn-lbl">Días</div></div>
         <div class="cn-sep">:</div>
@@ -429,17 +429,17 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
         <div class="cn-sep">:</div>
         <div class="cn-bloque"><div class="cn-num" id="cd-seg">00</div><div class="cn-lbl">Seg</div></div>
       </div>
-      <div class="cp-fecha">🏆 Sorteo<br>4 Sep 2026</div>
+      <div class="cp-fecha">🏆 Selección<br>4 Sep 2026</div>
     </div>
     <!-- Botón participar -->
     <button class="btn-participar" onclick="irAFormulario()">
       ¡PARTICIPAR AHORA! <span class="btn-arrow">→</span>
     </button>
-    <!-- Botón sorteo -->
-    <button class="btn-sorteo" id="btn-sorteo" onclick="irASorteo()">
-      🎰 REALIZAR SORTEO
+    <!-- Botón selección -->
+    <button class="btn-selección" id="btn-selección" onclick="irASelección()">
+      🎰 SELECCIÓN DEL GANADOR
     </button>
-    <div class="btn-sorteo-hint">🔒 Disponible al cierre — 31 Ago 2026</div>
+    <div class="btn-selección-hint">🔒 Disponible al cierre de dinámica — 31 Ago 2026</div>
   </div>
 </div>
 
@@ -451,7 +451,7 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
       <img class="form-header-img" src="bg.png" alt="Axion">
       <div class="form-header-text">
         <h2>¡La Axion<br>de Ganar!</h2>
-        <p>Registra tu venta y obtén tus boletos</p>
+        <p>Registra tu venta y obtén tus participaciones</p>
       </div>
       <button class="btn-volver" onclick="volverPortada()">← Portada</button>
     </div>
@@ -511,34 +511,34 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
         </div>
       </div>
     </div>
-    <div class="total-boletos-bar" id="total-bar">
+    <div class="total-registros-bar" id="total-bar">
       <div>
-        <div class="tb-label">Total de boletos</div>
+        <div class="tb-label">Total de registros</div>
         <div class="tb-sub">Suma de todas las cajas</div>
       </div>
       <div style="text-align:right">
         <div class="tb-num" id="total-num">0</div>
-        <div class="tb-sub">boletos</div>
+        <div class="tb-sub">registros</div>
       </div>
     </div>
     <button class="btn-registrar" id="btn-reg" onclick="registrarVenta()">
-      <span id="btn-txt">🎟️ Registrar y Obtener Boletos</span>
+      <span id="btn-txt">🎟️ Registrar y Obtener Registros</span>
       <span class="spinner" id="spinner"></span>
     </button>
-    <footer>Campaña válida del 1 al 31 de Agosto 2026<br>Solo mayoristas autorizados · Consulta bases con tu vendedor</footer>
+    <footer>Dinámica de Lealtad — 1 al 31 de Agosto 2026<br>Solo mayoristas autorizados · Consulta bases con tu vendedor</footer>
   </div>
 </div>
 
-<!-- ══ PANTALLA 3 — SORTEO ══ -->
-<div id="pantalla-sorteo">
-  <div class="sorteo-wrap">
-    <div class="sorteo-top">
-      <button class="btn-volver-sorteo" onclick="volverPortada()">← Portada</button>
-      <div class="sorteo-titulo">🎰 SORTEO AXION</div>
+<!-- ══ PANTALLA 3 — SELECCIÓN ══ -->
+<div id="pantalla-selección">
+  <div class="selección-wrap">
+    <div class="selección-top">
+      <button class="btn-volver-selección" onclick="volverPortada()">← Portada</button>
+      <div class="selección-titulo">🏆 SELECCIÓN DEL GANADOR</div>
       <div style="width:70px"></div>
     </div>
     <div class="maquina">
-      <div class="maquina-label">Jala la palanca para revelar al ganador</div>
+      <div class="maquina-label">Toca la palanca para revelar al participante ganador</div>
       <div class="slot-pantalla">
         <div class="slot-drum" id="drum-0"><div class="slot-digit" id="digit-0">?</div></div>
         <div class="slot-drum" id="drum-1"><div class="slot-digit" id="digit-1">?</div></div>
@@ -547,14 +547,14 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
       </div>
       <div class="palanca-wrap">
         <button class="palanca-btn" id="palanca-btn" onclick="jalarPalanca()">🎰</button>
-        <div class="palanca-label">¡Toca para sortear!</div>
+        <div class="palanca-label">¡Toca para seleccionar!</div>
       </div>
     </div>
     <div class="cargando-txt" id="cargando-txt">⏳ Consultando participantes...</div>
     <div class="ganador-box" id="ganador-box">
       <div class="g-trofeo">🏆</div>
-      <div class="g-label">¡Boleto Ganador!</div>
-      <div class="g-boleto" id="g-boleto-num"></div>
+      <div class="g-label">¡Registro Ganador!</div>
+      <div class="g-registro" id="g-registro-num"></div>
       <div class="g-sep"></div>
       <div class="g-felicidades">¡Felicidades!</div>
       <div class="g-nombre" id="g-nombre"></div>
@@ -568,10 +568,10 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal-stars">⭐🎉⭐</div>
-    <h2>¡Boletos Asignados!</h2>
+    <h2>¡Registros Asignados!</h2>
     <p class="modal-cliente" id="m-cliente"></p>
-    <div class="boleto-card">
-      <div class="bc-label">Tu rango de boletos</div>
+    <div class="registro-card">
+      <div class="bc-label">Tu rango de registros</div>
       <div class="bc-nums" id="m-nums"></div>
       <div class="bc-count" id="m-count"></div>
     </div>
@@ -613,16 +613,16 @@ function irAFormulario() {
 function volverPortada() {
   document.getElementById('pantalla-portada').style.display = 'flex';
   document.getElementById('pantalla-form').style.display    = 'none';
-  document.getElementById('pantalla-sorteo').style.display  = 'none';
+  document.getElementById('pantalla-selección').style.display  = 'none';
   window.scrollTo(0,0);
 }
-function irASorteo() {
+function irASelección() {
   document.getElementById('pantalla-portada').style.display = 'none';
-  document.getElementById('pantalla-sorteo').style.display  = 'block';
+  document.getElementById('pantalla-selección').style.display  = 'block';
   window.scrollTo(0,0);
 }
 
-// ── Total boletos en tiempo real ──
+// ── Total registros en tiempo real ──
 document.getElementById('productos-lista').addEventListener('input', function(e) {
   if (!e.target.classList.contains('prod-qty')) return;
   actualizarTotal();
@@ -664,7 +664,7 @@ async function registrarVenta() {
     if (!res.ok) throw new Error('Error de red');
     const data = await res.json();
     if (data.error) throw new Error(data.error);
-    mostrarModal(cliente, data.boletoInicial, data.boletoFinal, bultos, folio, vendedor);
+    mostrarModal(cliente, data.registroInicial, data.registroFinal, bultos, folio, vendedor);
     limpiarForm(); lanzarConfetti();
   } catch(err) {
     toast('❌ ' + (err.message==='Failed to fetch' ? 'Sin conexión.' : err.message||'Error al guardar.'));
@@ -672,7 +672,7 @@ async function registrarVenta() {
 }
 function setLoading(on) {
   document.getElementById('btn-reg').disabled = on;
-  document.getElementById('btn-txt').textContent = on ? 'Guardando...' : '🎟️ Registrar y Obtener Boletos';
+  document.getElementById('btn-txt').textContent = on ? 'Guardando...' : '🎟️ Registrar y Obtener Registros';
   document.getElementById('spinner').style.display = on ? 'block' : 'none';
 }
 function limpiarForm() {
@@ -685,14 +685,14 @@ function limpiarForm() {
 function mostrarModal(cliente,ini,fin,n,folio,vendedor) {
   document.getElementById('m-cliente').textContent = cliente;
   document.getElementById('m-nums').textContent    = n===1 ? `# ${ini}` : `# ${ini}  →  # ${fin}`;
-  document.getElementById('m-count').textContent   = `${n} boleto${n>1?'s':''} en total`;
+  document.getElementById('m-count').textContent   = `${n} participación${n>1?'s':''} en total`;
   document.getElementById('m-detalle').innerHTML   = `Folio: <strong style="color:rgba(255,255,255,.7)">${folio}</strong> · ${vendedor}<br>📸 Toma una foto de esta pantalla como comprobante`;
   document.getElementById('modal').classList.add('show');
 }
 function cerrarModal() { document.getElementById('modal').classList.remove('show'); }
 
 // ── TRAGAPERRAS ──
-let sorteoRealizado = false;
+let selecciónRealizado = false;
 let participantes   = [];
 
 // ── AUDIO ENGINE (Web Audio API) ──
@@ -761,7 +761,7 @@ function playWin() {
 }
 
 async function jalarPalanca() {
-  if (sorteoRealizado) return;
+  if (selecciónRealizado) return;
   if (AC.state === "suspended") await AC.resume();
   const btn = document.getElementById('palanca-btn');
   btn.disabled = true;
@@ -795,8 +795,8 @@ async function jalarPalanca() {
 
   // Elegir ganador
   const ganador = participantes[Math.floor(Math.random() * participantes.length)];
-  // El número que se muestra en los tambores ES el número del boleto ganador
-  const numStr  = String(ganador.boleto).padStart(4, '0');
+  // El número que se muestra en los tambores ES el número del registro ganador
+  const numStr  = String(ganador.registro).padStart(4, '0');
   const digits  = numStr.split('');
 
   const drums = [0,1,2,3].map(i => document.getElementById('drum-'+i));
@@ -817,7 +817,7 @@ async function jalarPalanca() {
     setTimeout(() => {
       clearInterval(drumIntervals[i]);
       drums[i].classList.remove('spinning');
-      dEls[i].textContent = digits[i]; // número REAL del boleto
+      dEls[i].textContent = digits[i]; // número REAL del registro
       dEls[i].style.color = '#FFFFFF';
       playStop(i); // sonido click de parada + ding
       setTimeout(() => { dEls[i].style.color = ''; }, 350);
@@ -830,12 +830,12 @@ async function jalarPalanca() {
     mostrarGanador(ganador, numStr);
     lanzarConfetti();
     playWin(); // fanfarria de festejo
-    sorteoRealizado = true;
+    selecciónRealizado = true;
   }, 21200);
 }
 
 function mostrarGanador(ganador, numStr) {
-  document.getElementById('g-boleto-num').textContent = `# ${numStr}`;
+  document.getElementById('g-registro-num').textContent = `# ${numStr}`;
   document.getElementById('g-nombre').textContent     = ganador.cliente;
   document.getElementById('g-tel').textContent        = `📞 ${ganador.telefono}`;
   document.getElementById('ganador-box').style.display = 'block';
