@@ -347,7 +347,7 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
 @keyframes ganadorIn{from{transform:scale(.7);opacity:0;}to{transform:scale(1);opacity:1;}}
 .g-trofeo{font-size:2.5rem;margin-bottom:.3rem;}
 .g-label{font-size:.72rem;font-weight:900;color:var(--rojo);text-transform:uppercase;letter-spacing:2px;}
-.g-registro{
+.g-boleto{
   font-family:'Black Han Sans',sans-serif;
   font-size:2.8rem; color:var(--rojo);
   margin:.2rem 0; line-height:1;
@@ -554,7 +554,7 @@ footer{margin-top:1.8rem;text-align:center;font-size:.72rem;color:rgba(255,255,2
     <div class="ganador-box" id="ganador-box">
       <div class="g-trofeo">🏆</div>
       <div class="g-label">¡Registro Ganador!</div>
-      <div class="g-registro" id="g-registro-num"></div>
+      <div class="g-boleto" id="g-boleto-num"></div>
       <div class="g-sep"></div>
       <div class="g-felicidades">¡Felicidades!</div>
       <div class="g-nombre" id="g-nombre"></div>
@@ -664,7 +664,7 @@ async function registrarVenta() {
     if (!res.ok) throw new Error('Error de red');
     const data = await res.json();
     if (data.error) throw new Error(data.error);
-    mostrarModal(cliente, data.registroInicial, data.registroFinal, bultos, folio, vendedor);
+    mostrarModal(cliente, data.boletoInicial, data.boletoFinal, bultos, folio, vendedor);
     limpiarForm(); lanzarConfetti();
   } catch(err) {
     toast('❌ ' + (err.message==='Failed to fetch' ? 'Sin conexión.' : err.message||'Error al guardar.'));
@@ -685,7 +685,7 @@ function limpiarForm() {
 function mostrarModal(cliente,ini,fin,n,folio,vendedor) {
   document.getElementById('m-cliente').textContent = cliente;
   document.getElementById('m-nums').textContent    = n===1 ? `# ${ini}` : `# ${ini}  →  # ${fin}`;
-  document.getElementById('m-count').textContent   = `${n} participación${n>1?'s':''} en total`;
+  document.getElementById('m-count').textContent   = `${n} participación${n>1?'es':''} en total`;
   document.getElementById('m-detalle').innerHTML   = `Folio: <strong style="color:rgba(255,255,255,.7)">${folio}</strong> · ${vendedor}<br>📸 Toma una foto de esta pantalla como comprobante`;
   document.getElementById('modal').classList.add('show');
 }
@@ -796,7 +796,7 @@ async function jalarPalanca() {
   // Elegir ganador
   const ganador = participantes[Math.floor(Math.random() * participantes.length)];
   // El número que se muestra en los tambores ES el número del registro ganador
-  const numStr  = String(ganador.registro).padStart(4, '0');
+  const numStr  = String(ganador.boleto).padStart(4, '0');
   const digits  = numStr.split('');
 
   const drums = [0,1,2,3].map(i => document.getElementById('drum-'+i));
@@ -835,7 +835,7 @@ async function jalarPalanca() {
 }
 
 function mostrarGanador(ganador, numStr) {
-  document.getElementById('g-registro-num').textContent = `# ${numStr}`;
+  document.getElementById('g-boleto-num').textContent = `# ${numStr}`;
   document.getElementById('g-nombre').textContent     = ganador.cliente;
   document.getElementById('g-tel').textContent        = `📞 ${ganador.telefono}`;
   document.getElementById('ganador-box').style.display = 'block';
